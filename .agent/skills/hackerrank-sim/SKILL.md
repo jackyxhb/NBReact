@@ -5,118 +5,131 @@ description: Comprehensive skill for simulating HackerRank-style technical asses
 
 # HackerRank Simulator Skill
 
-This skill provides the core capabilities for simulating technical assessment platforms like HackerRank, LeetCode, and CodeSignal.
+Simulate technical assessment platforms like HackerRank, LeetCode, and CodeSignal for interview preparation.
+
+---
+
+## Quick Start
+
+| Command | Description |
+|---------|-------------|
+| `/practice react medium` | Start React practice, medium difficulty |
+| `/answer` | Get detailed answer to a question |
+| `/resume` | Continue saved session |
+| `/progress` | View progress report |
+
+---
 
 ## Capabilities
 
 ### 1. Question Generation
 
-Generate authentic-style questions based on:
+- AI-generated questions by topic and difficulty
+- Web search for real-world questions
+- Multiple formats: coding, MCQ, React components
 
-- **Topic**: React, JavaScript, TypeScript, Algorithms, CSS, HTML, etc.
-- **Difficulty**: Easy, Medium, Hard
-- **Platform Style**: HackerRank, LeetCode, CodeSignal, Codility
-
-Question types supported:
-
-- Algorithm/data structure problems
-- Frontend component challenges
-- Multiple choice conceptual questions
-- SQL queries
-- API design
-
-### 2. Web Search Integration
-
-Search authoritative sources for real-world questions:
-
-- Official documentation examples
-- Common interview question databases
-- Technical blogs and tutorials
-
-Always cite sources when using external questions.
-
-### 3. HTML Notebook Generation
-
-Generate interactive coding environment:
-
-- HackerRank-style split-panel layout
-- Monaco Editor for code input
-- Live JavaScript execution
-- Test case runner
-- Timer display (optional)
-
-Template located at: `templates/notebook.html`
-
-### 4. Code Evaluation
-
-Evaluate user solutions:
+### 2. Code Evaluation
 
 - Static analysis (AI review)
-- Dynamic testing (run against test cases)
-- Performance benchmarking
-- Code quality assessment
+- Dynamic testing (run test cases)
+- Detailed scoring with breakdown
 
-### 5. Session Management
+### 3. Interactive Notebook
 
-Track practice sessions:
+- HackerRank-style split-panel UI
+- Monaco Editor with syntax highlighting
+- Live JavaScript execution
+- Test case runner
 
-- Save session state
-- Resume capability
-- Progress merging
-- History tracking
+### 4. Session Management
 
-### 6. Progress Analytics
+- Save/resume sessions
+- Track question progress
+- Maintain score history
 
-Generate insights:
+### 5. Progress Analytics
 
-- Score trends
-- Topic strengths/weaknesses
-- Recommendations
-- Token usage monitoring
+- Topic performance breakdown
+- Difficulty progression
+- Improvement trends
+- Smart recommendations
+
+### 6. Token Optimization
+
+- Efficient prompt design
+- Usage monitoring
+- Weekly reports
 
 ---
 
 ## Workflows
 
-This skill is invoked by the following workflows:
-
-- `/practice` - [practice.md](file:///Users/macbook1/work/NBReact/.agent/workflows/practice.md)
-- `/answer` - [answer.md](file:///Users/macbook1/work/NBReact/.agent/workflows/answer.md)
-- `/resume` - [resume.md](file:///Users/macbook1/work/NBReact/.agent/workflows/resume.md)
-- `/progress` - [progress.md](file:///Users/macbook1/work/NBReact/.agent/workflows/progress.md)
-
----
-
-## Rules Applied
-
-- [platform-format.md](file:///Users/macbook1/work/NBReact/.agent/rules/platform-format.md) - Formatting standards
-- [evaluation.md](file:///Users/macbook1/work/NBReact/.agent/rules/evaluation.md) - Scoring criteria
+| Workflow | File | Trigger |
+|----------|------|---------|
+| Practice | [practice.md](file:///Users/macbook1/work/NBReact/.agent/workflows/practice.md) | `/practice` |
+| Answer | [answer.md](file:///Users/macbook1/work/NBReact/.agent/workflows/answer.md) | `/answer` |
+| Resume | [resume.md](file:///Users/macbook1/work/NBReact/.agent/workflows/resume.md) | `/resume` |
+| Progress | [progress.md](file:///Users/macbook1/work/NBReact/.agent/workflows/progress.md) | `/progress` |
 
 ---
 
-## Directory Structure
+## Rules
+
+| Rule | Purpose |
+|------|---------|
+| [platform-format.md](file:///Users/macbook1/work/NBReact/.agent/rules/platform-format.md) | HackerRank/LeetCode formatting |
+| [evaluation.md](file:///Users/macbook1/work/NBReact/.agent/rules/evaluation.md) | Scoring criteria |
+
+---
+
+## Resources
+
+### Templates
+
+- [notebook.html](file:///Users/macbook1/work/NBReact/.agent/skills/hackerrank-sim/templates/notebook.html) - Interactive editor
+- [question-templates.md](file:///Users/macbook1/work/NBReact/.agent/skills/hackerrank-sim/templates/question-templates.md) - Question formats
+
+### Scripts
+
+- [test-runner.js](file:///Users/macbook1/work/NBReact/.agent/skills/hackerrank-sim/scripts/test-runner.js) - Execute test cases
+- [progress-tracker.js](file:///Users/macbook1/work/NBReact/.agent/skills/hackerrank-sim/scripts/progress-tracker.js) - Analytics
+- [notebook-generator.js](file:///Users/macbook1/work/NBReact/.agent/skills/hackerrank-sim/scripts/notebook-generator.js) - Generate HTML
+
+### Documentation
+
+- [session-manager.md](file:///Users/macbook1/work/NBReact/.agent/skills/hackerrank-sim/session-manager.md) - Session handling
+- [evaluation-engine.md](file:///Users/macbook1/work/NBReact/.agent/skills/hackerrank-sim/evaluation-engine.md) - Scoring logic
+- [verification-tests.md](file:///Users/macbook1/work/NBReact/.agent/skills/hackerrank-sim/verification-tests.md) - Test suite
+- [token-optimization.md](file:///Users/macbook1/work/NBReact/.agent/skills/hackerrank-sim/token-optimization.md) - Efficiency
+
+### Examples
+
+- [sample-questions.md](file:///Users/macbook1/work/NBReact/.agent/skills/hackerrank-sim/examples/sample-questions.md) - Reference questions
+
+---
+
+## Data Locations
 
 ```
 NBReact/
-├── config.json              # Settings
+├── config.json           # Settings
 ├── practice/
-│   ├── sessions/           # Saved sessions
-│   └── current/            # Active session
-├── archive/                # Answer mode archives
-│   └── {topic}/           # Organized by topic
+│   ├── sessions/        # Saved sessions
+│   └── current/         # Active session
+├── archive/{topic}/     # Answer archives
 ├── progress/
-│   ├── history.json       # Score history
-│   ├── analytics.md       # Reports
-│   └── token-usage.json   # Token tracking
+│   ├── history.json     # Score history
+│   ├── token-usage.json # Token tracking
+│   └── analytics.md     # Reports
 └── notebook/
-    └── current.html       # Active notebook
+    └── current.html     # Active notebook
 ```
 
 ---
 
 ## Configuration
 
-Settings in `config.json`:
+Edit `config.json`:
 
 ```json
 {
@@ -126,37 +139,20 @@ Settings in `config.json`:
   "scoringStrictness": "balanced",
   "theme": "dark",
   "language": "javascript",
-  "platformStyle": "hackerrank",
-  "timeLimit": {
-    "enabled": false,
-    "easy": 15,
-    "medium": 30,
-    "hard": 45
-  }
+  "platformStyle": "hackerrank"
 }
 ```
 
-Override per session: `/practice react hard 3` (topic, difficulty, count)
+Override per session: `/practice react hard 3`
 
 ---
 
 ## Self-Verification
 
-All operations include built-in verification:
+Built-in checks before each response:
 
-- Question format validation
-- Test case execution confirmation
-- Score calculation accuracy
-- File creation verification
-- Progress update confirmation
-
----
-
-## Token Efficiency
-
-Minimize token usage by:
-
-- Concise prompts
-- Avoiding redundant context
-- Incremental updates vs full rewrites
-- Efficient file operations
+- Question format valid
+- Test cases executable
+- Score calculated correctly
+- Files created successfully
+- Progress updated
