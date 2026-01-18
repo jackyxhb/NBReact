@@ -1,0 +1,19 @@
+{
+  "topics": ["react", "javascript", "algorithms", "typescript", "css", "html"],
+  "difficulty": "medium",
+  "questionsPerSession": 5,
+  "scoringStrictness": "balanced",
+  "theme": "dark",
+  "language": "javascript",
+  "platformStyle": "hackerrank",
+  "timeLimit": {
+    "enabled": false,
+    "easy": 15,
+    "medium": 30,
+    "hard": 45
+  },
+  "tokenTracking": {
+    "enabled": true,
+    "reportFrequency": "weekly"
+  }
+}
