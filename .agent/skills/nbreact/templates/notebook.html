@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HackerRank Simulator - Practice</title>
+    <title>NBReact - Practice</title>
     <style>
         :root {
             --bg-primary: #1e1e1e;
@@ -73,7 +74,9 @@
             color: var(--warning);
         }
 
-        .timer.hidden { display: none; }
+        .timer.hidden {
+            display: none;
+        }
 
         .question-nav {
             display: flex;
@@ -280,13 +283,29 @@
             background: var(--border);
         }
 
-        .test-status.passed { background: var(--success); }
-        .test-status.failed { background: var(--error); }
-        .test-status.running { background: var(--warning); animation: pulse 1s infinite; }
+        .test-status.passed {
+            background: var(--success);
+        }
+
+        .test-status.failed {
+            background: var(--error);
+        }
+
+        .test-status.running {
+            background: var(--warning);
+            animation: pulse 1s infinite;
+        }
 
         @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
         }
 
         .console-output {
@@ -346,10 +365,11 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Header -->
     <header class="header">
-        <div class="logo">🎯 HackerRank Simulator</div>
+        <div class="logo">🎯 NBReact</div>
         <div class="nav-controls">
             <div class="timer hidden" id="timer">00:00:00</div>
             <div class="question-nav">
@@ -366,11 +386,11 @@
         <!-- Problem Panel -->
         <div class="problem-panel" id="problemPanel">
             <h1 class="problem-title" id="problemTitle">Two Sum</h1>
-            
+
             <div class="problem-section">
                 <h2 class="section-title">Problem Statement</h2>
                 <div class="section-content" id="problemStatement">
-                    Given an array of integers <code>nums</code> and an integer <code>target</code>, 
+                    Given an array of integers <code>nums</code> and an integer <code>target</code>,
                     return indices of the two numbers such that they add up to target.
                 </div>
             </div>
@@ -387,7 +407,7 @@
             <div class="problem-section">
                 <h2 class="section-title">Sample Input</h2>
                 <div class="sample-box" id="sampleInput">nums = [2, 7, 11, 15]
-target = 9</div>
+                    target = 9</div>
             </div>
 
             <div class="problem-section">
@@ -483,7 +503,7 @@ target = 9</div>
                 const h = Math.floor(seconds / 3600);
                 const m = Math.floor((seconds % 3600) / 60);
                 const s = seconds % 60;
-                document.getElementById('timer').textContent = 
+                document.getElementById('timer').textContent =
                     `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
             }, 1000);
         }
@@ -524,12 +544,12 @@ target = 9</div>
         document.getElementById('runBtn').addEventListener('click', () => {
             const code = editor.getValue();
             const outputContent = document.getElementById('outputContent');
-            
+
             try {
                 // Create sandboxed execution
                 const result = eval(`(function() { ${code}; return solution([2, 7, 11, 15], 9); })()`);
                 outputContent.innerHTML = `<div class="console-success">Output: ${JSON.stringify(result)}</div>`;
-                
+
                 // Update test case status
                 document.querySelectorAll('.test-status')[0].classList.add('passed');
             } catch (error) {
@@ -546,4 +566,5 @@ target = 9</div>
         });
     </script>
 </body>
+
 </html>

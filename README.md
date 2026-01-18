@@ -1,6 +1,8 @@
-# 🎯 HackerRank Simulator
+# 🎯 NBReact
 
-An AI-powered technical assessment simulator built on Antigravity agent workflows. Practice for HackerRank, LeetCode, and CodeSignal interviews with realistic questions, code evaluation, and progress tracking.
+**AI-Powered Notebook for Frontend Developers**
+
+An intelligent practice and learning environment built on Antigravity agent workflows. Master React, JavaScript, and frontend development through interactive coding challenges, AI-powered evaluation, and personalized progress tracking.
 
 ---
 
@@ -21,11 +23,11 @@ An AI-powered technical assessment simulator built on Antigravity agent workflow
 |---------|-------------|
 | 🧠 **AI Question Generation** | Auto-generated questions by topic and difficulty |
 | 🔍 **Web Search Integration** | Find real questions from authoritative sources |
-| 💻 **Interactive Notebook** | HackerRank-style split-panel coding environment |
+| 💻 **Interactive Notebook** | Split-panel coding environment with live execution |
 | ✅ **Code Evaluation** | AI review + test case execution with scoring |
 | 📊 **Progress Tracking** | Score history, trends, and recommendations |
 | 💾 **Session Management** | Save, pause, and resume practice sessions |
-| 🎨 **Multiple Platforms** | HackerRank, LeetCode, CodeSignal styles |
+| 🎨 **Multiple Styles** | HackerRank, LeetCode, CodeSignal formats |
 
 ---
 
@@ -33,7 +35,7 @@ An AI-powered technical assessment simulator built on Antigravity agent workflow
 
 ### Practice Mode (`/practice`)
 
-Interactive Q&A loop simulating real technical assessments:
+Interactive Q&A loop for skill building:
 
 ```
 /practice [topic] [difficulty] [count]
@@ -114,13 +116,7 @@ Edit `config.json` to customize defaults:
   "scoringStrictness": "balanced",
   "theme": "dark",
   "language": "javascript",
-  "platformStyle": "hackerrank",
-  "timeLimit": {
-    "enabled": false,
-    "easy": 15,
-    "medium": 30,
-    "hard": 45
-  }
+  "platformStyle": "hackerrank"
 }
 ```
 
@@ -135,39 +131,32 @@ Edit `config.json` to customize defaults:
 | `theme` | `dark`, `light` | Notebook UI theme |
 | `language` | `javascript`, `typescript`, `python` | Preferred language |
 | `platformStyle` | `hackerrank`, `leetcode`, `codesignal` | Question format |
-| `timeLimit.enabled` | Boolean | Enable countdown timer |
 
 ---
 
-## Supported Topics
+## Frontend Topics
 
-- **React**: Hooks, components, state, effects, patterns
-- **JavaScript**: ES6+, closures, async, DOM, patterns
-- **TypeScript**: Types, generics, interfaces, utility types
-- **Algorithms**: Arrays, strings, trees, graphs, DP
-- **CSS/HTML**: Layouts, flexbox, grid, accessibility
-- **SQL**: Queries, joins, aggregations (coming soon)
+| Topic | Coverage |
+|-------|----------|
+| **React** | Hooks, components, state, effects, patterns, performance |
+| **JavaScript** | ES6+, closures, async/await, DOM, event loop |
+| **TypeScript** | Types, generics, interfaces, utility types |
+| **CSS** | Flexbox, Grid, animations, responsive design |
+| **HTML** | Semantic markup, accessibility, forms |
+| **Algorithms** | Arrays, strings, trees, common interview problems |
 
 ---
 
 ## Scoring System
 
-### Score Breakdown
-
-| Component | Weight (Balanced) |
-|-----------|-------------------|
+| Component | Weight |
+|-----------|--------|
 | Test Cases | 60% |
 | Code Quality | 15% |
 | Approach | 20% |
 | Complexity | 5% |
 
-### Strictness Levels
-
-| Level | Description |
-|-------|-------------|
-| **Lenient** | Focus on learning, generous partial credit |
-| **Balanced** | Fair scoring, minor issues tolerated |
-| **Strict** | Exam-like, exact output required |
+**Strictness Levels**: Lenient (learning-focused) → Balanced → Strict (exam-like)
 
 ---
 
@@ -179,39 +168,14 @@ NBReact/
 ├── README.md                   # This file
 │
 ├── .agent/
-│   ├── workflows/
-│   │   ├── practice.md        # /practice workflow
-│   │   ├── answer.md          # /answer workflow
-│   │   ├── resume.md          # /resume workflow
-│   │   └── progress.md        # /progress workflow
-│   │
-│   ├── rules/
-│   │   ├── platform-format.md # Formatting rules
-│   │   └── evaluation.md      # Scoring rules
-│   │
-│   └── skills/hackerrank-sim/
-│       ├── SKILL.md           # Main skill definition
-│       ├── templates/         # HTML notebook, question templates
-│       ├── scripts/           # test-runner, progress-tracker
-│       ├── examples/          # Sample questions
-│       └── *.md               # Documentation
+│   ├── workflows/             # /practice, /answer, /resume, /progress
+│   ├── rules/                 # Formatting, evaluation rules
+│   └── skills/nbreact/        # Core skill with templates & scripts
 │
-├── practice/
-│   ├── sessions/              # Saved sessions
-│   └── current/               # Active session
-│
-├── archive/                   # Answer mode archives
-│   ├── react/
-│   ├── algorithms/
-│   └── javascript/
-│
-├── progress/
-│   ├── history.json           # Score history
-│   ├── token-usage.json       # Token tracking
-│   └── analytics.md           # Generated reports
-│
-└── notebook/
-    └── current.html           # Generated interactive notebook
+├── practice/sessions/          # Saved sessions
+├── archive/{topic}/            # Q&A archives
+├── progress/                   # Analytics data
+└── notebook/                   # Generated interactive notebooks
 ```
 
 ---
@@ -229,28 +193,15 @@ Open `notebook/current.html` in a browser to use.
 
 ---
 
-## Token Efficiency
+## Architecture
 
-The system is optimized for token efficiency:
+Built on **Antigravity agent workflows**:
 
-- Template-based question generation
-- Incremental progress updates
-- Cached statistics
-- Efficient prompt structures
+1. **Workflows** - Step-by-step processes (`/practice`, `/answer`, etc.)
+2. **Rules** - Consistent behavior guidelines
+3. **Skills** - Complex capabilities with templates & scripts
 
-Monitor usage with `/progress tokens`.
-
----
-
-## Self-Verification
-
-All operations include built-in verification:
-
-- ✓ Question format validation
-- ✓ Test case execution confirmation
-- ✓ Score calculation accuracy
-- ✓ File creation verification
-- ✓ Progress update confirmation
+The AI follows these definitions to execute each command consistently.
 
 ---
 
@@ -259,41 +210,11 @@ All operations include built-in verification:
 | Command | Description |
 |---------|-------------|
 | `/practice` | Start practice session |
-| `/practice [topic] [diff] [n]` | Custom practice session |
-| `/answer` | Answer mode (paste question) |
+| `/practice [topic] [diff] [n]` | Custom session |
+| `/answer` | Get answer to a question |
 | `/resume` | Resume saved session |
-| `/resume latest` | Resume most recent |
-| `/progress` | Full progress report |
-| `/progress tokens` | Token usage report |
-| `/sessions` | List all saved sessions |
-
----
-
-## Architecture
-
-This project uses **Antigravity agent workflows**:
-
-1. **Workflows** (`.agent/workflows/`) - Step-by-step processes triggered by commands
-2. **Rules** (`.agent/rules/`) - Persistent behavior guidelines
-3. **Skills** (`.agent/skills/`) - Complex capabilities with resources
-
-The AI follows these definitions to execute each command consistently.
-
----
-
-## Background
-
-Built to prepare for technical interviews based on this scenario:
-
-> *"The next step of our recruitment process is some technical exercises. The assessment has a total of 5 questions with a time frame of 90-120 minutes. This is our general assessment; the questions cover a range of technologies; we do not expect candidates to demonstrate expertise in all areas."*
-
-Practice realistically before the real test!
-
----
-
-## License
-
-Personal use for interview preparation.
+| `/progress` | View progress report |
+| `/sessions` | List saved sessions |
 
 ---
 
@@ -302,7 +223,7 @@ Personal use for interview preparation.
 1. Run `/practice` to start your first session
 2. Answer questions in the format provided
 3. Review your score and feedback
-4. Check `/progress` to see your improvements
-5. Use `/answer` when you need help with a specific question
+4. Check `/progress` to see improvements
+5. Use `/answer` for help with specific questions
 
-Good luck with your interviews! 🚀
+**Happy learning!** 🚀
