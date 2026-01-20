@@ -87,9 +87,18 @@ Format:
 
 ---
 
-### Step 3: Present Question
+### Step 3: Present Question & Open Notebook
 
-**Chat Presentation**:
+// turbo
+
+**Automatic Actions**:
+
+1. Generate notebook HTML with question data
+2. Save to notebook/current.html
+3. **Automatically open** the notebook in the default browser using `open` command
+4. Present question summary in chat
+
+**Chat Presentation** (shown alongside notebook):
 
 ```markdown
 ---
@@ -99,35 +108,24 @@ Format:
 ## [Problem Title]
 
 ### Problem Statement
-[Clear description]
+[Brief description - full details in notebook]
 
-### Constraints
-- constraint 1
-- constraint 2
-
-### Sample Input
-\`\`\`
-[input]
-\`\`\`
-
-### Sample Output
-\`\`\`
-[output]
-\`\`\`
-
-### Explanation
-[Step-by-step for sample]
+### Key Requirements
+- requirement 1
+- requirement 2
 
 ---
-💻 **Write your solution below** (or type `open notebook` for the interactive editor)
+📓 **Notebook opened in browser** - write your solution there
+💻 Or paste code directly in chat
 ⏱️ Timer: [HH:MM:SS] (if enabled)
 ```
 
-**If Interactive Notebook Requested**:
+**Implementation**:
 
-1. Generate notebook HTML with question data
-2. Save to notebook/current.html
-3. Provide user with: "Open file:///path/to/notebook/current.html in browser"
+```bash
+# Generate and open notebook automatically
+open /path/to/NBReact/notebook/current.html
+```
 
 ---
 
@@ -241,6 +239,110 @@ session.currentQuestion++;
 session.totalScore += calculatedScore;
 
 saveSession(session);
+```
+
+---
+
+### Step 7b: Archive Question Notebook
+
+// turbo
+
+**Before moving to the next question**, archive the current notebook for later review.
+
+**Archive Location**: `archive/practice/`
+
+**Naming Convention**: `{sessionId}_q{questionId}.html`
+
+**Implementation**:
+
+```bash
+# Copy current notebook to archive with unique name
+cp notebook/current.html archive/practice/{sessionId}_q{questionId}.html
+
+# Example:
+cp notebook/current.html archive/practice/session_20260119051750_q1.html
+```
+
+**Purpose**:
+
+- Allows review of past questions and solutions
+- Preserves the exact question context
+- Enables progress tracking over time
+
+---
+
+### Step 7c: Update Session Markdown Summary
+
+// turbo
+
+**After each question**, append the question and optimal solution to a Markdown summary file.
+
+**File Location**: `progress/session_{sessionId}.md`
+
+**Content Per Question** (append incrementally):
+
+```markdown
+## Q{questionId}: {Question Title}
+
+### Problem Statement
+{problem description}
+
+### Requirements
+{constraints/requirements as bullet list}
+
+### Sample Usage
+\`\`\`javascript
+{sample usage code}
+\`\`\`
+
+### Solution
+\`\`\`javascript
+{optimal/correct solution}
+\`\`\`
+
+---
+```
+
+**Implementation**:
+
+1. If file doesn't exist, create it
+2. Append the current question's content
+3. Use `javascript` or `jsx` code blocks as appropriate
+4. Include only: Problem, Requirements, Sample usage, Optimal solution
+5. No header section, no scores - just clean reference material
+
+**Example File** (`progress/session_20260119051750.md`):
+
+```markdown
+## Q1: useCounter Custom Hook
+
+### Problem Statement
+Create a custom React hook that manages counter state...
+
+### Requirements
+- Accept optional initialValue parameter
+- Provide increment, decrement, reset, set functions
+- Memoize all functions with useCallback
+
+### Sample Usage
+\`\`\`javascript
+const { count, increment } = useCounter(10);
+\`\`\`
+
+### Solution
+\`\`\`javascript
+import { useState, useCallback } from 'react';
+
+function useCounter(initialValue = 0) {
+  const [count, setCount] = useState(initialValue);
+  // ... full implementation
+}
+\`\`\`
+
+---
+
+## Q2: useFetch Custom Hook
+...
 ```
 
 ---
