@@ -883,8 +883,10 @@
         });
 
         // ============================================
-        // File Communication
+        // File Communication (Replaced with HTTP API)
         // ============================================
+
+        const API_BASE = 'http://localhost:3456/api';
 
         async function sendRequest(type, payload = {}) {
             const request = {
@@ -902,11 +904,14 @@
                 showLoading(getLoadingMessage(type));
                 updateStatus('waiting', 'Processing...');
 
-                // Write request to file (via localStorage for demo, real implementation uses file system)
-                localStorage.setItem('nbr_request', JSON.stringify(request));
+                // POST to MCP Server
+                const res = await fetch(`${API_BASE}/request`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(request)
+                });
 
-                // Also try to write to actual file if running on file:// or with server
-                await writeRequestFile(request);
+                if (!res.ok) throw new Error('Server returned ' + res.status);
 
                 // Start polling for response
                 startPolling(request.id);
@@ -914,27 +919,32 @@
             } catch (error) {
                 console.error('Error sending request:', error);
                 hideLoading();
-                updateStatus('error', 'Request failed');
-                addChatMessage('ai', `Sorry, there was an error: ${error.message}`);
+                updateStatus('error', 'Request failed: ' + error.message);
+                addChatMessage('ai', `Sorry, there was an error connecting to the notebook server: ${error.message}. Is the MCP server running?`);
             }
         }
 
-        async function writeRequestFile(request) {
-            // This will be picked up by Antigravity watching the file
-            const blob = new Blob([JSON.stringify(request, null, 2)], { type: 'application/json' });
+        async function checkResponse(requestId) {
+            try {
+                const res = await fetch(`${API_BASE}/response?id=${requestId}`);
+                if (res.ok) {
+                    // 204 No Content means pending
+                    if (res.status === 204) return null;
 
-            // For file:// protocol, we can't write directly
-            // The request is stored in localStorage and can be manually copied
-            // In a real setup, this would use a local server or file API
-
-            console.log('Request ready:', request);
-            console.log('Copy this to notebook/request.json for Antigravity to process');
+                    const response = await res.json();
+                    return response;
+                }
+            } catch (e) {
+                console.log('Polling error:', e);
+            }
+            return null;
         }
 
         function startPolling(requestId) {
             if (isPolling) return;
             isPolling = true;
 
+            // Poll every 1 second
             pollTimer = setInterval(async () => {
                 try {
                     const response = await checkResponse(requestId);
@@ -945,17 +955,17 @@
                 } catch (error) {
                     console.log('Polling...', error.message);
                 }
-            }, CONFIG.POLL_INTERVAL);
+            }, 1000);
 
-            // Timeout after 30 seconds
+            // Timeout after 60 seconds (increased for AI thinking time)
             setTimeout(() => {
                 if (isPolling) {
                     stopPolling();
                     hideLoading();
                     updateStatus('error', 'Timeout');
-                    addChatMessage('ai', '⏱️ Request timed out. Make sure Antigravity is running with `/notebook-watch`.');
+                    addChatMessage('ai', '⏱️ Request timed out. The AI might be taking too long or the server is disconnected.');
                 }
-            }, 30000);
+            }, 60000);
         }
 
         function stopPolling() {
@@ -964,35 +974,6 @@
                 clearInterval(pollTimer);
                 pollTimer = null;
             }
-        }
-
-        async function checkResponse(requestId) {
-            // Check localStorage first (for demo)
-            const stored = localStorage.getItem('nbr_response');
-            if (stored) {
-                const response = JSON.parse(stored);
-                if (response.id === requestId && response.id !== lastResponseId) {
-                    lastResponseId = response.id;
-                    localStorage.removeItem('nbr_response');
-                    return response;
-                }
-            }
-
-            // Try fetching from file
-            try {
-                const res = await fetch(CONFIG.RESPONSE_FILE + '?t=' + Date.now());
-                if (res.ok) {
-                    const response = await res.json();
-                    if (response.id === requestId && response.id !== lastResponseId) {
-                        lastResponseId = response.id;
-                        return response;
-                    }
-                }
-            } catch (e) {
-                // File not ready yet
-            }
-
-            return null;
         }
 
         // ============================================

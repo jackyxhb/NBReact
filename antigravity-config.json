@@ -1,0 +1,9 @@
+{
+    "mcpServers": {
+        "nbreact": {
+            "command": "/Users/macbook1/work/NBReact/src-tauri/target/release/app",
+            "args": [],
+            "cwd": "/Users/macbook1/work/NBReact"
+        }
+    }
+}

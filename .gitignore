@@ -1,2 +1,42 @@
+# Node & NPM
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.npm/
+
+# Vite / Web Output
+dist/
+dist-ssr/
+*.local
+
+# Environment Variables
+.env
+.env.*
+!.env.example
+
+# macOS & System
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editor Directories
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Tauri / Rust
+src-tauri/target/
+src-tauri/gen/
+# Cargo.lock is usually committed for applications, so we don't ignore it.
+
+# NBReact Ephemeral Data
 notebook/request.json
 notebook/response.json
+

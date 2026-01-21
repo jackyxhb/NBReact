@@ -1,49 +1,61 @@
 {
-  "sessionId": "session_20260121143000",
-  "createdAt": "2026-01-21T14:30:00+13:00",
-  "completedAt": "2026-01-21T17:28:44+13:00",
-  "topic": "react",
-  "difficulty": "medium",
-  "questionsPerSession": 5,
-  "currentQuestion": 5,
-  "totalScore": 478,
-  "averageScore": 95.6,
+  "session_id": "session_20260121_q2",
+  "topic": "React",
+  "difficulty": "Medium",
+  "questions_per_session": 5,
+  "current_question_index": 1,
   "questions": [
     {
-      "id": 1,
-      "title": "usePrevious Custom Hook",
-      "score": 95,
-      "attempts": 2,
-      "completedAt": "2026-01-21T15:07:08+13:00"
+      "id": "1",
+      "title": "React Timer Component",
+      "description": "Create a React component named <code>Timer</code> that displays a countdown timer. The component should accept an <code>initialSeconds</code> prop. It should decrement by 1 every second until it reaches 0. Provide a 'Reset' button to restart the timer to the initial value.",
+      "requirements": [
+        "Component name: <code>Timer</code>",
+        "Props: <code>initialSeconds</code> (number)",
+        "Display the remaining seconds",
+        "Decrement every 1000ms",
+        "Stop at 0",
+        "Reset button functionality"
+      ],
+      "examples": "",
+      "starter_code": "function Timer({ initialSeconds }) {\n  // Implementation\n}",
+      "difficulty": "Medium",
+      "topic": "React"
     },
     {
-      "id": 2,
-      "title": "useClickOutside Custom Hook",
-      "score": 92,
-      "attempts": 2,
-      "completedAt": "2026-01-21T15:30:56+13:00"
+      "id": "2",
+      "title": "User List Filter",
+      "description": "Create a component `UserList` that accepts a `users` prop (array of objects with `name` and `role`). Render a text input to filter the list by name (case-insensitive). Display the filtered users in an unordered list. Each list item should display the name and role.",
+      "requirements": [
+        "Component name: `UserList`",
+        "Input field for filtering",
+        "Case-insensitive name filtering",
+        "Render `<ul>` with `<li>` for each user",
+        "Display 'Name (Role)' format"
+      ],
+      "examples": "",
+      "starter_code": "function UserList({ users }) {\n  return (\n    <div>\n      {/* Your list filtering logic here */}\n    </div>\n  );\n}\n\n// Example usage\nconst users = [\n  { name: 'Alice', role: 'Admin' },\n  { name: 'Bob', role: 'User' },\n  { name: 'Charlie', role: 'Dev' }\n];\n\nrender(<UserList users={users} />);",
+      "difficulty": "Medium",
+      "topic": "React"
     },
     {
-      "id": 3,
-      "title": "useDebounce Custom Hook",
-      "score": 98,
-      "attempts": 1,
-      "completedAt": "2026-01-21T16:07:14+13:00"
-    },
-    {
-      "id": 4,
-      "title": "useWindowSize Custom Hook",
-      "score": 96,
-      "attempts": 4,
-      "completedAt": "2026-01-21T17:04:01+13:00"
-    },
-    {
-      "id": 5,
-      "title": "useInterval Custom Hook",
-      "score": 97,
-      "attempts": 2,
-      "completedAt": "2026-01-21T17:26:43+13:00"
+      "id": "3",
+      "title": "Toggle Button",
+      "description": "Create a `ToggleButton` component that toggles between 'ON' and 'OFF' states when clicked. It should verify the click handling logic.",
+      "requirements": [
+        "Component name: `ToggleButton`",
+        "Default state: OFF",
+        "Toggle text on click"
+      ],
+      "examples": "",
+      "starter_code": "function ToggleButton() {\n  const [isOn, setIsOn] = React.useState(false);\n  return <button onClick={() => setIsOn(!isOn)}>{isOn ? 'ON' : 'OFF'}</button>;\n}\nrender(<ToggleButton />);",
+      "difficulty": "Easy",
+      "topic": "React"
     }
   ],
-  "status": "completed"
+  "start_time": "2026-01-21T21:15:00Z",
+  "scores": [
+    100.0,
+    0.0
+  ]
 }
