@@ -104,6 +104,29 @@ View comprehensive analytics:
 
 ---
 
+### Notebook Watch Mode (`/notebook-watch`)
+
+Enable AI interactions directly from the notebook web page:
+
+```
+/notebook-watch    # Start watching for notebook requests
+```
+
+**Supported Actions** (triggered from notebook UI):
+
+| Action | Description |
+|--------|-------------|
+| `evaluate` | Submit and score your solution |
+| `hint` | Get a helpful hint |
+| `answer` | Show complete solution |
+| `next` | Move to next question |
+| `chat` | Ask questions about the problem |
+| `start` | Begin a new session from notebook |
+
+The notebook polls the AI every 1.5 seconds for responses.
+
+---
+
 ## Configuration
 
 Edit `config.json` to customize defaults:
@@ -214,6 +237,7 @@ The AI follows these definitions to execute each command consistently.
 | `/answer` | Get answer to a question |
 | `/resume` | Resume saved session |
 | `/progress` | View progress report |
+| `/notebook-watch` | Enable AI interaction from notebook |
 | `/sessions` | List saved sessions |
 
 ---
