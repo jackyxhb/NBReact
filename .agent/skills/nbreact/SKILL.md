@@ -64,6 +64,7 @@ AI-Powered Notebook for Frontend Developers. Practice React, JavaScript, and fro
 | Answer | [answer.md](file:///Users/macbook1/work/NBReact/.agent/workflows/answer.md) | `/answer` |
 | Resume | [resume.md](file:///Users/macbook1/work/NBReact/.agent/workflows/resume.md) | `/resume` |
 | Progress | [progress.md](file:///Users/macbook1/work/NBReact/.agent/workflows/progress.md) | `/progress` |
+| Notebook Watch | [notebook-watch.md](file:///Users/macbook1/work/NBReact/.agent/workflows/notebook-watch.md) | `/notebook-watch` |
 
 ---
 
@@ -80,7 +81,8 @@ AI-Powered Notebook for Frontend Developers. Practice React, JavaScript, and fro
 
 ### Templates
 
-- `templates/notebook.html` - Interactive editor
+- `templates/notebook.html` - Basic interactive editor
+- `templates/notebook-interactive.html` - Enhanced notebook with chat panel
 - `templates/question-templates.md` - Question formats
 
 ### Scripts
@@ -88,6 +90,7 @@ AI-Powered Notebook for Frontend Developers. Practice React, JavaScript, and fro
 - `scripts/test-runner.js` - Execute test cases
 - `scripts/progress-tracker.js` - Analytics
 - `scripts/notebook-generator.js` - Generate HTML
+- `scripts/bridge-server.js` - HTTP bridge for notebook ↔ AI communication
 
 ### Documentation
 
@@ -95,6 +98,18 @@ AI-Powered Notebook for Frontend Developers. Practice React, JavaScript, and fro
 - `evaluation-engine.md` - Scoring logic
 - `verification-tests.md` - Test suite
 - `token-optimization.md` - Efficiency
+
+---
+
+## Interactive Notebook Mode
+
+For real-time AI interaction from the notebook:
+
+1. **Start bridge server**: `node .agent/skills/nbreact/scripts/bridge-server.js`
+2. **Open notebook**: `http://localhost:3456/notebook`
+3. **Start watching**: Run `/notebook-watch` in Antigravity
+
+The notebook communicates via `request.json` and `response.json` files.
 
 ---
 

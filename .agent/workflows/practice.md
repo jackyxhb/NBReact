@@ -352,6 +352,35 @@ function useCounter(initialValue = 0) {
 **If "next"**: Return to Step 2
 **If "end" or all questions done**:
 
+// turbo
+
+**8a. Archive All Notebooks**:
+
+```bash
+# Archive the interactive notebook for review
+cp notebook/interactive.html archive/practice/{sessionId}_q1-q{totalQuestions}.html
+```
+
+**8b. Create Session Summary** (`progress/session_{sessionId}.md`):
+
+For each question, append:
+
+- Problem statement
+- Requirements
+- Sample usage
+- Optimal solution
+
+**8c. Update Session JSON**:
+
+```javascript
+session.status = "completed";
+session.completedAt = new Date().toISOString();
+session.averageScore = session.totalScore / session.questions.length;
+saveSession(session);
+```
+
+**8d. Display Final Results**:
+
 ```markdown
 ---
 ## 🏆 Session Complete!
@@ -378,7 +407,9 @@ function useCounter(initialValue = 0) {
 - Strong: React hooks understanding
 
 ---
-Session saved. View progress with `/progress`
+✅ Session archived to `archive/practice/`
+📄 Summary saved to `progress/session_{sessionId}.md`
+View progress with `/progress`
 ```
 
 ---

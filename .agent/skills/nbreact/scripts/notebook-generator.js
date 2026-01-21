@@ -1,114 +1,117 @@
-#!/usr/bin/env node
 /**
- * Notebook Generator for HackerRank Simulator
- * Generates HTML notebook with question data
+ * NBReact Notebook Generator
+ * Generates interactive notebook HTML from template and question data
  */
 
 const fs = require('fs');
 const path = require('path');
 
-// Template path
-const TEMPLATE_PATH = path.join(__dirname, '../templates/notebook.html');
-const OUTPUT_PATH = path.join(__dirname, '../../../../notebook/current.html');
+const TEMPLATE_PATH = path.join(__dirname, '..', 'templates', 'notebook-interactive.html');
+const OUTPUT_PATH = path.join(__dirname, '..', '..', '..', '..', 'notebook', 'current.html');
+const SESSION_PATH = path.join(__dirname, '..', '..', '..', '..', 'practice', 'current', 'session.json');
 
 /**
- * Generate a notebook with the given question data
+ * Generate notebook HTML with question data embedded
+ * @param {Object} question - Question data
+ * @param {Object} session - Session data
+ * @returns {string} Generated HTML
  */
-function generateNotebook(questionData) {
-    // Read template
-    let template = fs.readFileSync(TEMPLATE_PATH, 'utf8');
-
-    // Inject question data
-    const injectionScript = `
-  <script>
-    // Question data injected by generator
-    window.questionData = ${JSON.stringify(questionData, null, 2)};
+function generateNotebook(question, session) {
+    let template = fs.readFileSync(TEMPLATE_PATH, 'utf-8');
     
-    // Populate UI on load
-    document.addEventListener('DOMContentLoaded', function() {
-      const q = window.questionData;
-      
-      // Set title
-      document.getElementById('problemTitle').textContent = q.title;
-      
-      // Set problem statement
-      document.getElementById('problemStatement').innerHTML = q.statement;
-      
-      // Set constraints
-      const constraintsList = document.getElementById('constraints');
-      constraintsList.innerHTML = q.constraints
-        .map(c => '<li>• ' + c + '</li>')
-        .join('');
-      
-      // Set sample input/output
-      document.getElementById('sampleInput').textContent = q.sampleInput;
-      document.getElementById('sampleOutput').textContent = q.sampleOutput;
-      
-      // Set explanation
-      document.getElementById('explanation').innerHTML = q.explanation;
-      
-      // Set starter code
-      if (window.editor && q.starterCode) {
-        editor.setValue(q.starterCode);
-      }
-      
-      // Set test cases
-      const testCasesContainer = document.getElementById('testCases');
-      testCasesContainer.innerHTML = q.testCases
-        .map((tc, i) => 
-          '<div class="test-case" data-case="' + i + '">' +
-          '<div class="test-status"></div>' +
-          '<span>Test Case ' + i + (tc.hidden ? ' (Hidden)' : '') + '</span>' +
-          '</div>'
-        )
-        .join('');
-      
-      // Set question number
-      document.getElementById('questionNum').textContent = 
-        'Q' + q.questionNumber + ' of ' + q.totalQuestions;
-      
-      // Enable/disable timer
-      if (q.timerEnabled) {
-        document.getElementById('timer').classList.remove('hidden');
-        startTimer(true);
-      }
-      
-      // Theme
-      if (q.theme === 'light') {
-        document.body.classList.add('light-theme');
-      }
-    });
-  </script>
-  `;
-
-    // Inject before closing body tag
-    template = template.replace('</body>', injectionScript + '\n</body>');
-
-    // Ensure output directory exists
-    const outputDir = path.dirname(OUTPUT_PATH);
-    if (!fs.existsSync(outputDir)) {
-        fs.mkdirSync(outputDir, { recursive: true });
+    // Replace placeholders with actual data
+    const replacements = {
+        '{{TOPIC}}': session.topic || 'React',
+        '{{DIFFICULTY}}': session.difficulty || 'Medium',
+        '{{QUESTION_NUM}}': session.currentQuestion || 1,
+        '{{TOTAL_QUESTIONS}}': session.questionsPerSession || 5,
+        '{{TITLE}}': question.title || 'Loading...',
+        '{{DESCRIPTION}}': question.description || '',
+        '{{REQUIREMENTS}}': formatRequirements(question.requirements),
+        '{{EXAMPLES}}': question.examples || '',
+        '{{STARTER_CODE}}': escapeForJS(question.starterCode || '// Your code here\n'),
+        '{{TEST_CASES}}': formatTestCases(question.testCases),
+    };
+    
+    for (const [key, value] of Object.entries(replacements)) {
+        template = template.replace(new RegExp(key, 'g'), value);
     }
-
-    // Write output
-    fs.writeFileSync(OUTPUT_PATH, template);
-
-    return OUTPUT_PATH;
+    
+    return template;
 }
 
-// Export for use
-module.exports = { generateNotebook };
+/**
+ * Format requirements as HTML list
+ */
+function formatRequirements(requirements) {
+    if (!requirements || !requirements.length) return '';
+    return requirements.map(r => `<li>${r}</li>`).join('\n');
+}
 
-// CLI interface
+/**
+ * Format test cases as HTML
+ */
+function formatTestCases(testCases) {
+    if (!testCases || !testCases.length) return '';
+    return testCases.map((tc, i) => `
+        <div class="test-case">
+            <div class="test-status"></div>
+            <span>${tc.name || `Test ${i}`}</span>
+        </div>
+    `).join('\n');
+}
+
+/**
+ * Escape string for use in JavaScript
+ */
+function escapeForJS(str) {
+    return str
+        .replace(/\\/g, '\\\\')
+        .replace(/`/g, '\\`')
+        .replace(/\$/g, '\\$');
+}
+
+/**
+ * Write notebook to file
+ */
+function writeNotebook(html) {
+    fs.writeFileSync(OUTPUT_PATH, html, 'utf-8');
+    console.log(`✓ Notebook written to: ${OUTPUT_PATH}`);
+}
+
+/**
+ * Load current session
+ */
+function loadSession() {
+    try {
+        return JSON.parse(fs.readFileSync(SESSION_PATH, 'utf-8'));
+    } catch (e) {
+        return null;
+    }
+}
+
+// Export for use as module
+module.exports = {
+    generateNotebook,
+    writeNotebook,
+    loadSession,
+    TEMPLATE_PATH,
+    OUTPUT_PATH,
+    SESSION_PATH,
+};
+
+// CLI usage
 if (require.main === module) {
-    const questionFile = process.argv[2];
-
-    if (!questionFile) {
-        console.log('Usage: notebook-generator.js <question-data.json>');
+    const session = loadSession();
+    if (!session) {
+        console.error('No active session found. Start a session with /practice first.');
         process.exit(1);
     }
-
-    const questionData = JSON.parse(fs.readFileSync(questionFile, 'utf8'));
-    const outputPath = generateNotebook(questionData);
-    console.log('Generated notebook:', outputPath);
+    
+    console.log(`Session: ${session.sessionId}`);
+    console.log(`Question: ${session.currentQuestion} of ${session.questionsPerSession}`);
+    
+    // For CLI, we just copy the template as-is since question data comes from Antigravity
+    const template = fs.readFileSync(TEMPLATE_PATH, 'utf-8');
+    writeNotebook(template);
 }

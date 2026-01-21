@@ -1,5 +1,12 @@
 {
-  "topics": ["react", "javascript", "algorithms", "typescript", "css", "html"],
+  "topics": [
+    "react",
+    "javascript",
+    "algorithms",
+    "typescript",
+    "css",
+    "html"
+  ],
   "difficulty": "medium",
   "questionsPerSession": 5,
   "scoringStrictness": "balanced",
@@ -14,6 +21,6 @@
   },
   "tokenTracking": {
     "enabled": true,
-    "reportFrequency": "weekly"
+    "reportFrequency": "per session"
   }
 }
