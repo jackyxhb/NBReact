@@ -6,6 +6,16 @@ An intelligent practice and learning environment built on Antigravity agent work
 
 ---
 
+## 🛠️ Tech Stack
+
+- **Frontend**: React, TypeScript, Vite
+- **Desktop App**: Tauri v2 (Rust)
+- **Editor**: Monaco Editor (VS Code core)
+- **State Management**: React Hooks & Context
+- **Architecture**: Local-first, Agentic AI integrated
+
+---
+
 ## Quick Start
 
 ```bash
@@ -23,7 +33,8 @@ An intelligent practice and learning environment built on Antigravity agent work
 |---------|-------------|
 | 🧠 **AI Question Generation** | Auto-generated questions by topic and difficulty |
 | 🔍 **Web Search Integration** | Find real questions from authoritative sources |
-| 💻 **Interactive Notebook** | Split-panel coding environment with live execution |
+| 💻 **Desktop Experience** | Native performance with deeper system integration (Tauri) |
+| 📝 **Interactive Notebook** | Split-panel coding environment with live execution |
 | ✅ **Code Evaluation** | AI review + test case execution with scoring |
 | 📊 **Progress Tracking** | Score history, trends, and recommendations |
 | 💾 **Session Management** | Save, pause, and resume practice sessions |
@@ -183,22 +194,61 @@ Edit `config.json` to customize defaults:
 
 ---
 
-## Project Structure
+## 👨‍💻 Development
+
+### Prerequisites
+
+- **Node.js** (v18+)
+- **Rust & Cargo** (for Tauri)
+
+### Setup & Run
+
+1. **Install dependencies**:
+
+    ```bash
+    npm install
+    ```
+
+2. **Run in Browser Mode** (Frontend only):
+
+    ```bash
+    npm run dev
+    ```
+
+3. **Run in Desktop Mode** (Tauri app):
+
+    ```bash
+    npm run tauri dev
+    ```
+
+---
+
+## 📂 Project Structure
 
 ```
 NBReact/
-├── config.json                 # Settings
+├── src/                        # React Frontend Application
+│   ├── components/             # UI Components
+│   ├── hooks/                  # Custom React Hooks
+│   ├── App.tsx                 # Main Application Component
+│   └── main.tsx                # Entry Point
+│
+├── src-tauri/                  # Rust Backend (Tauri)
+│   ├── src/                    # Rust Source Code
+│   ├── taura.conf.json         # Tauri Configuration
+│   └── Cargo.toml              # Rust Dependencies
+│
+├── config.json                 # User Settings
 ├── README.md                   # This file
 │
-├── .agent/
-│   ├── workflows/             # /practice, /answer, /resume, /progress
-│   ├── rules/                 # Formatting, evaluation rules
-│   └── skills/nbreact/        # Core skill with templates & scripts
+├── .agent/                     # Agentic AI Configuration
+│   ├── workflows/              # Agent Workflows
+│   ├── rules/                  # Evaluation Rules
+│   └── skills/                 # Agent Skills
 │
-├── practice/sessions/          # Saved sessions
-├── archive/{topic}/            # Q&A archives
-├── progress/                   # Analytics data
-└── notebook/                   # Generated interactive notebooks
+├── practice/sessions/          # Saved Sessions
+├── archive/                    # Q&A Archives
+└── progress/                   # User Progress Data
 ```
 
 ---
