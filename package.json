@@ -1,6 +1,6 @@
 {
   "name": "nbreact",
-  "version": "1.0.0",
+  "version": "1.2.1",
   "description": "**AI-Powered Notebook for Frontend Developers**",
   "type": "module",
   "scripts": {
