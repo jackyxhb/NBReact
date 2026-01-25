@@ -16,17 +16,21 @@ Read from `config.json` → `platformStyle` setting. Defaults to `hackerrank`.
 ## [Problem Title]
 
 ### Problem Statement
+
 [Clear description of the task]
 
 ### Constraints
+
 - 1 ≤ n ≤ 10^5
 - 1 ≤ arr[i] ≤ 10^9
 
 ### Input Format
+
 - First line: integer n
 - Second line: n space-separated integers
 
 ### Output Format
+
 - Single integer representing the result
 
 ### Sample Input 0
@@ -55,13 +59,14 @@ Read from `config.json` → `platformStyle` setting. Defaults to `hackerrank`.
 
 ### Score: 85/100
 
-| Test Case | Status | Time | Memory |
-|-----------|--------|------|--------|
-| Case 0 | ✅ Passed | 0.02s | 4.2MB |
-| Case 1 | ✅ Passed | 0.03s | 4.1MB |
-| Case 2 | ❌ Failed | - | - |
+| Test Case | Status    | Time  | Memory |
+| --------- | --------- | ----- | ------ |
+| Case 0    | ✅ Passed | 0.02s | 4.2MB  |
+| Case 1    | ✅ Passed | 0.03s | 4.1MB  |
+| Case 2    | ❌ Failed | -     | -      |
 
 ### Code Quality: Good
+
 - Clean variable naming
 - Efficient approach
 - Consider edge cases
@@ -111,6 +116,7 @@ Output: [1,2]
 **Memory**: 42.1 MB (beats 72%)
 
 ### Analysis
+
 - Time: O(n)
 - Space: O(n)
 ```
@@ -127,9 +133,11 @@ Output: [1,2]
 [Task description]
 
 ### Guaranteed Constraints
+
 - array.length ≤ 10^5
 
 ### Input/Output
+
 - **[input]** array.integer arr
 - **[output]** integer
 ```

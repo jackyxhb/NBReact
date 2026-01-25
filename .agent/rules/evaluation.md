@@ -35,12 +35,12 @@ Read from `config.json` → `scoringStrictness`. Values: `lenient`, `balanced`, 
 
 ### For Coding Problems (100 points total)
 
-| Component | Lenient | Balanced | Strict |
-|-----------|---------|----------|--------|
-| Test Cases (correctness) | 50% | 60% | 70% |
-| Approach/Logic | 25% | 20% | 15% |
-| Code Quality | 15% | 15% | 10% |
-| Complexity (time/space) | 10% | 5% | 5% |
+| Component                | Lenient | Balanced | Strict |
+| ------------------------ | ------- | -------- | ------ |
+| Test Cases (correctness) | 50%     | 60%      | 70%    |
+| Approach/Logic           | 25%     | 20%      | 15%    |
+| Code Quality             | 15%     | 15%      | 10%    |
+| Complexity (time/space)  | 10%     | 5%       | 5%     |
 
 ### Test Case Scoring
 
@@ -78,12 +78,12 @@ Read from `config.json` → `scoringStrictness`. Values: `lenient`, `balanced`, 
 
 ## For Conceptual/Essay Questions
 
-| Criteria | Weight |
-|----------|--------|
-| Correctness of concepts | 40% |
-| Completeness | 25% |
-| Clarity of explanation | 20% |
-| Examples provided | 15% |
+| Criteria                | Weight |
+| ----------------------- | ------ |
+| Correctness of concepts | 40%    |
+| Completeness            | 25%    |
+| Clarity of explanation  | 20%    |
+| Examples provided       | 15%    |
 
 ---
 

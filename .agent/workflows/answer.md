@@ -85,11 +85,13 @@ Evaluate based on:
 [Restate the problem in simpler terms]
 
 **Key Points:**
+
 - Point 1: What we're given
 - Point 2: What we need to find
 - Point 3: Important constraints
 
 **Edge Cases to Consider:**
+
 - Empty input
 - Single element
 - Maximum constraints
@@ -105,10 +107,12 @@ Evaluate based on:
 3. The key insight is...
 
 **Why this approach?**
+
 - [Justification for chosen method]
 - [Trade-offs considered]
 
 **Algorithm:**
+
 1. Step one
 2. Step two
 3. Step three
@@ -120,20 +124,25 @@ Evaluate based on:
 Let me walk through solving this:
 
 **Step 1: [Description]**
+
 ```javascript
 // Code for step 1
 const setup = ...;
 ```
-*Explanation of what this does*
+
+_Explanation of what this does_
 
 **Step 2: [Description]**
+
 ```javascript
 // Code for step 2
 const process = ...;
 ```
-*Explanation of what this does*
+
+_Explanation of what this does_
 
 **Step 3: [Description]**
+
 ```javascript
 // Putting it together
 ...
@@ -148,7 +157,7 @@ const process = ...;
  * [Brief description]
  * @param {Type} param - Description
  * @returns {Type} Description
- * 
+ *
  * Time Complexity: O(n)
  * Space Complexity: O(1)
  */
@@ -163,11 +172,13 @@ function solution(param) {
 ### 📊 Complexity Analysis
 
 **Time Complexity: O(n)**
+
 - We iterate through the array once
 - Each operation is O(1)
 - Total: O(n)
 
 **Space Complexity: O(1)**
+
 - We only use a few variables
 - No additional data structures
 - No recursion stack
@@ -184,19 +195,23 @@ function solution(param) {
 ### 🔗 Related Topics & Resources
 
 **Concepts Used:**
+
 - [Concept 1]: Brief explanation with link
 - [Concept 2]: Brief explanation with link
 
 **Similar Problems:**
+
 - Problem A (slightly easier)
 - Problem B (similar difficulty)
 - Problem C (harder variation)
 
 **Further Learning:**
+
 - [MDN/React Docs link]
 - [Tutorial recommendation]
 
 ---
+
 📁 Archived to: archive/[topic]/[question-id].md
 ````
 
@@ -241,9 +256,11 @@ source: hackerrank
 # [Question Title]
 
 ## Original Question
+
 [Full question text]
 
 ## Solution
+
 [Complete teaching response]
 ```
 
@@ -260,7 +277,7 @@ const entry = {
   topic: detectedTopic,
   difficulty: assessedDifficulty,
   timestamp: new Date().toISOString(),
-  archived: archivePath
+  archived: archivePath,
 };
 
 appendToHistory(entry);
@@ -317,6 +334,7 @@ If [condition], you might prefer:
 \`\`\`
 
 **Trade-offs:**
+
 - Pro: [advantage]
 - Con: [disadvantage]
 ```
@@ -331,6 +349,7 @@ If [condition], you might prefer:
 ---
 
 ### The Question
+
 [Restate question]
 
 ### Correct Answer: **[Option X]**
@@ -341,14 +360,17 @@ If [condition], you might prefer:
 [Detailed explanation]
 
 **Why other options are wrong:**
+
 - **A**: [Why wrong]
 - **B**: [Why wrong]
 - **C**: [Why wrong]
 
 ### Key Concept
+
 [Underlying concept explanation]
 
 ### Related Topics
+
 [Links to learn more]
 
 ---
@@ -362,6 +384,7 @@ If [condition], you might prefer:
 
 ```markdown
 I need a bit more context. Could you clarify:
+
 1. [Specific question about ambiguity]
 2. [Request for constraints if missing]
 ```
@@ -370,6 +393,7 @@ I need a bit more context. Could you clarify:
 
 ```markdown
 I'm having trouble reading part of the screenshot. Could you:
+
 - Share a clearer image, OR
 - Type out the question text
 ```
@@ -378,6 +402,7 @@ I'm having trouble reading part of the screenshot. Could you:
 
 ```markdown
 I see multiple questions. Would you like me to:
+
 1. Answer all of them in sequence
 2. Focus on just one (please specify which)
 ```

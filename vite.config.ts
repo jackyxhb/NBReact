@@ -1,13 +1,19 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/
 export default defineConfig(async () => ({
-    plugins: [react()],
-    clearScreen: false,
-    server: {
-        port: 1420,
-        strictPort: true,
-    },
-    envPrefix: ["VITE_", "TAURI_"],
+  plugins: [react()],
+  clearScreen: false,
+  server: {
+    port: 1420,
+    strictPort: true,
+  },
+  envPrefix: ['VITE_', 'TAURI_'],
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './src/test-runner/setup.ts',
+    css: true,
+  },
 }));

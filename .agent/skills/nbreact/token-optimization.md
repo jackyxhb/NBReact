@@ -31,13 +31,13 @@ Best practices for minimizing token consumption while maintaining quality.
 
 ## Token Budget Guidelines
 
-| Operation | Target Budget |
-|-----------|---------------|
-| Question Generation | 200-400 |
-| User Answer Analysis | 150-300 |
-| Evaluation + Feedback | 300-500 |
-| Progress Report | 200-350 |
-| Answer Mode Response | 400-800 |
+| Operation             | Target Budget |
+| --------------------- | ------------- |
+| Question Generation   | 200-400       |
+| User Answer Analysis  | 150-300       |
+| Evaluation + Feedback | 300-500       |
+| Progress Report       | 200-350       |
+| Answer Mode Response  | 400-800       |
 
 ---
 

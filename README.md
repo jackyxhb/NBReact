@@ -29,16 +29,16 @@ An intelligent practice and learning environment built on Antigravity agent work
 
 ## Features
 
-| Feature | Description |
-|---------|-------------|
-| 🧠 **AI Question Generation** | Auto-generated questions by topic and difficulty |
-| 🔍 **Web Search Integration** | Find real questions from authoritative sources |
-| 💻 **Desktop Experience** | Native performance with deeper system integration (Tauri) |
-| 📝 **Interactive Notebook** | Split-panel coding environment with live execution |
-| ✅ **Code Evaluation** | AI review + test case execution with scoring |
-| 📊 **Progress Tracking** | Score history, trends, and recommendations |
-| 💾 **Session Management** | Save, pause, and resume practice sessions |
-| 🎨 **Multiple Styles** | HackerRank, LeetCode, CodeSignal formats |
+| Feature                       | Description                                               |
+| ----------------------------- | --------------------------------------------------------- |
+| 🧠 **AI Question Generation** | Auto-generated questions by topic and difficulty          |
+| 🔍 **Web Search Integration** | Find real questions from authoritative sources            |
+| 💻 **Desktop Experience**     | Native performance with deeper system integration (Tauri) |
+| 📝 **Interactive Notebook**   | Split-panel coding environment with live execution        |
+| ✅ **Code Evaluation**        | AI review + test case execution with scoring              |
+| 📊 **Progress Tracking**      | Score history, trends, and recommendations                |
+| 💾 **Session Management**     | Save, pause, and resume practice sessions                 |
+| 🎨 **Multiple Styles**        | HackerRank, LeetCode, CodeSignal formats                  |
 
 ---
 
@@ -125,14 +125,14 @@ Enable AI interactions directly from the notebook web page:
 
 **Supported Actions** (triggered from notebook UI):
 
-| Action | Description |
-|--------|-------------|
-| `evaluate` | Submit and score your solution |
-| `hint` | Get a helpful hint |
-| `answer` | Show complete solution |
-| `next` | Move to next question |
-| `chat` | Ask questions about the problem |
-| `start` | Begin a new session from notebook |
+| Action     | Description                       |
+| ---------- | --------------------------------- |
+| `evaluate` | Submit and score your solution    |
+| `hint`     | Get a helpful hint                |
+| `answer`   | Show complete solution            |
+| `next`     | Move to next question             |
+| `chat`     | Ask questions about the problem   |
+| `start`    | Begin a new session from notebook |
 
 The notebook polls the AI every 1.5 seconds for responses.
 
@@ -156,39 +156,39 @@ Edit `config.json` to customize defaults:
 
 ### Settings Reference
 
-| Setting | Options | Description |
-|---------|---------|-------------|
-| `topics` | Array of strings | Available practice topics |
-| `difficulty` | `easy`, `medium`, `hard` | Default difficulty |
-| `questionsPerSession` | Number | Questions per session |
-| `scoringStrictness` | `lenient`, `balanced`, `strict` | How strictly to grade |
-| `theme` | `dark`, `light` | Notebook UI theme |
-| `language` | `javascript`, `typescript`, `python` | Preferred language |
-| `platformStyle` | `hackerrank`, `leetcode`, `codesignal` | Question format |
+| Setting               | Options                                | Description               |
+| --------------------- | -------------------------------------- | ------------------------- |
+| `topics`              | Array of strings                       | Available practice topics |
+| `difficulty`          | `easy`, `medium`, `hard`               | Default difficulty        |
+| `questionsPerSession` | Number                                 | Questions per session     |
+| `scoringStrictness`   | `lenient`, `balanced`, `strict`        | How strictly to grade     |
+| `theme`               | `dark`, `light`                        | Notebook UI theme         |
+| `language`            | `javascript`, `typescript`, `python`   | Preferred language        |
+| `platformStyle`       | `hackerrank`, `leetcode`, `codesignal` | Question format           |
 
 ---
 
 ## Frontend Topics
 
-| Topic | Coverage |
-|-------|----------|
-| **React** | Hooks, components, state, effects, patterns, performance |
-| **JavaScript** | ES6+, closures, async/await, DOM, event loop |
-| **TypeScript** | Types, generics, interfaces, utility types |
-| **CSS** | Flexbox, Grid, animations, responsive design |
-| **HTML** | Semantic markup, accessibility, forms |
-| **Algorithms** | Arrays, strings, trees, common interview problems |
+| Topic          | Coverage                                                 |
+| -------------- | -------------------------------------------------------- |
+| **React**      | Hooks, components, state, effects, patterns, performance |
+| **JavaScript** | ES6+, closures, async/await, DOM, event loop             |
+| **TypeScript** | Types, generics, interfaces, utility types               |
+| **CSS**        | Flexbox, Grid, animations, responsive design             |
+| **HTML**       | Semantic markup, accessibility, forms                    |
+| **Algorithms** | Arrays, strings, trees, common interview problems        |
 
 ---
 
 ## Scoring System
 
-| Component | Weight |
-|-----------|--------|
-| Test Cases | 60% |
-| Code Quality | 15% |
-| Approach | 20% |
-| Complexity | 5% |
+| Component    | Weight |
+| ------------ | ------ |
+| Test Cases   | 60%    |
+| Code Quality | 15%    |
+| Approach     | 20%    |
+| Complexity   | 5%     |
 
 **Strictness Levels**: Lenient (learning-focused) → Balanced → Strict (exam-like)
 
@@ -205,21 +205,21 @@ Edit `config.json` to customize defaults:
 
 1. **Install dependencies**:
 
-    ```bash
-    npm install
-    ```
+   ```bash
+   npm install
+   ```
 
 2. **Run in Browser Mode** (Frontend only):
 
-    ```bash
-    npm run dev
-    ```
+   ```bash
+   npm run dev
+   ```
 
 3. **Run in Desktop Mode** (Tauri app):
 
-    ```bash
-    npm run tauri dev
-    ```
+   ```bash
+   npm run tauri dev
+   ```
 
 ---
 
@@ -280,15 +280,15 @@ The AI follows these definitions to execute each command consistently.
 
 ## Commands Reference
 
-| Command | Description |
-|---------|-------------|
-| `/practice` | Start practice session |
-| `/practice [topic] [diff] [n]` | Custom session |
-| `/answer` | Get answer to a question |
-| `/resume` | Resume saved session |
-| `/progress` | View progress report |
-| `/notebook-watch` | Enable AI interaction from notebook |
-| `/sessions` | List saved sessions |
+| Command                        | Description                         |
+| ------------------------------ | ----------------------------------- |
+| `/practice`                    | Start practice session              |
+| `/practice [topic] [diff] [n]` | Custom session                      |
+| `/answer`                      | Get answer to a question            |
+| `/resume`                      | Resume saved session                |
+| `/progress`                    | View progress report                |
+| `/notebook-watch`              | Enable AI interaction from notebook |
+| `/sessions`                    | List saved sessions                 |
 
 ---
 

@@ -50,9 +50,9 @@ We need to modify a valid **sorted array** in-place so that no number appears mo
 1. **Brute Force?** We could scan and count, but removing elements in an array (shifting) is expensive O(n²), or using a new array is O(n) space (forbidden).
 2. **Two Pointers:** Since the array is **sorted**, duplicates are always grouped together. We can iterate through the array with one pointer (`i`) and build the "valid" array with another pointer (`k`).
 3. **The Key Insight:** For any element `nums[i]`, when is it allowed to be added to our valid result?
-    - If we have fewer than 2 elements in our result so far (`k < 2`), we always accept it.
-    - If `nums[i]` is **different** from the element at position `k-2` (the one added two steps ago).
-    - If `nums[i] == nums[k-2]`, it means we already have two copies of that number (at `k-2` and `k-1`), so we skip `nums[i]`.
+   - If we have fewer than 2 elements in our result so far (`k < 2`), we always accept it.
+   - If `nums[i]` is **different** from the element at position `k-2` (the one added two steps ago).
+   - If `nums[i] == nums[k-2]`, it means we already have two copies of that number (at `k-2` and `k-1`), so we skip `nums[i]`.
 
 **Algorithm:**
 
@@ -91,25 +91,25 @@ Let's trace `nums = [1, 1, 1, 2, 2, 3]`
  * Removes duplicates from sorted array such that duplicates appear at most twice.
  * @param {number[]} nums
  * @return {number} - New length
- * 
+ *
  * Time Complexity: O(n) - Single pass
  * Space Complexity: O(1) - In-place
  */
 function removeDuplicates(nums) {
-    // k tracks the position where the NEXT allowed element should go
-    let k = 0;
+  // k tracks the position where the NEXT allowed element should go
+  let k = 0;
 
-    for (let i = 0; i < nums.length; i++) {
-        // If we have fewer than 2 elements, we can always add.
-        // If nums[i] is different from the element at k-2, we can add.
-        // (Since it's sorted, > is sufficient and implies strictly greater)
-        if (k < 2 || nums[i] > nums[k - 2]) {
-            nums[k] = nums[i];
-            k++;
-        }
+  for (let i = 0; i < nums.length; i++) {
+    // If we have fewer than 2 elements, we can always add.
+    // If nums[i] is different from the element at k-2, we can add.
+    // (Since it's sorted, > is sufficient and implies strictly greater)
+    if (k < 2 || nums[i] > nums[k - 2]) {
+      nums[k] = nums[i];
+      k++;
     }
-    
-    return k;
+  }
+
+  return k;
 }
 ```
 

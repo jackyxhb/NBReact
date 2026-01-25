@@ -1,21 +1,21 @@
 {
-    "sessions": [],
-    "totalQuestions": 0,
-    "totalSessions": 0,
-    "topicStats": {},
-    "difficultyStats": {
-        "easy": {
-            "attempted": 0,
-            "totalScore": 0
-        },
-        "medium": {
-            "attempted": 0,
-            "totalScore": 0
-        },
-        "hard": {
-            "attempted": 0,
-            "totalScore": 0
-        }
+  "sessions": [],
+  "totalQuestions": 0,
+  "totalSessions": 0,
+  "topicStats": {},
+  "difficultyStats": {
+    "easy": {
+      "attempted": 0,
+      "totalScore": 0
     },
-    "lastUpdated": null
+    "medium": {
+      "attempted": 0,
+      "totalScore": 0
+    },
+    "hard": {
+      "attempted": 0,
+      "totalScore": 0
+    }
+  },
+  "lastUpdated": null
 }

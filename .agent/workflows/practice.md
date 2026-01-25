@@ -8,7 +8,7 @@ description: Start a HackerRank-style practice session with AI-generated questio
 
 ## Quick Start Examples
 
-```
+```bash
 /practice                          # Uses defaults from config.json
 /practice react                    # React, default difficulty
 /practice react medium             # React, medium difficulty
@@ -24,7 +24,7 @@ description: Start a HackerRank-style practice session with AI-generated questio
 
 // turbo
 
-```
+```text
 1. Read config.json for defaults
 2. Parse command arguments for overrides
 3. Check for existing active session in practice/current/
@@ -87,18 +87,21 @@ Format:
 
 ---
 
-### Step 3: Present Question & Open Notebook
+### Step 3: Present Question & Start App
 
 // turbo
 
 **Automatic Actions**:
 
-1. Generate notebook HTML with question data
-2. Save to notebook/current.html
-3. **Automatically open** the notebook in the default browser using `open` command
-4. Present question summary in chat
+1. **Start the NBReact App**:
+   - Check if the dev server is running.
+   - If not, run `npm run dev` in a background terminal.
+2. **Open the App**:
+   - Open `http://localhost:5173` (or the actual port) in the browser.
+3. **Present Question Summary**:
+   - Display the question summary in the chat.
 
-**Chat Presentation** (shown alongside notebook):
+**Chat Presentation**:
 
 ```markdown
 ---
@@ -108,23 +111,28 @@ Format:
 ## [Problem Title]
 
 ### Problem Statement
-[Brief description - full details in notebook]
+
+[Brief description]
 
 ### Key Requirements
+
 - requirement 1
 - requirement 2
 
 ---
-📓 **Notebook opened in browser** - write your solution there
-💻 Or paste code directly in chat
-⏱️ Timer: [HH:MM:SS] (if enabled)
+
+🚀 **App started!**
+Access the notebook at: http://localhost:5173
 ```
 
 **Implementation**:
 
 ```bash
-# Generate and open notebook automatically
-open /path/to/NBReact/notebook/current.html
+# Start dev server if needed (check logic required)
+npm run dev
+
+# Open browser
+open http://localhost:5173
 ```
 
 ---
@@ -165,7 +173,7 @@ open /path/to/NBReact/notebook/current.html
    # Create temp files
    echo "$USER_CODE" > /tmp/solution.js
    echo "$TEST_CASES_JSON" > /tmp/tests.json
-   
+
    # Run test runner
    node .agent/skills/hackerrank-sim/scripts/test-runner.js \
      /tmp/solution.js \
@@ -190,29 +198,35 @@ open /path/to/NBReact/notebook/current.html
 ---
 
 ### Test Cases
-| # | Status | Time | Details |
-|---|--------|------|---------|
-| 0 | ✅ Passed | 2ms | Sample case |
-| 1 | ✅ Passed | 3ms | Edge case |
-| 2 | ❌ Failed | - | Expected [0,1], got [1,0] |
-| 3 | ✅ Passed | 5ms | Large input |
-| 4 | ✅ Passed | 4ms | Hidden |
+
+| #   | Status    | Time | Details                   |
+| --- | --------- | ---- | ------------------------- |
+| 0   | ✅ Passed | 2ms  | Sample case               |
+| 1   | ✅ Passed | 3ms  | Edge case                 |
+| 2   | ❌ Failed | -    | Expected [0,1], got [1,0] |
+| 3   | ✅ Passed | 5ms  | Large input               |
+| 4   | ✅ Passed | 4ms  | Hidden                    |
 
 ### Score Breakdown
+
 - Test Cases: 60/70 (4/5 passed)
 - Code Quality: 15/15
 - Complexity: O(n) optimal ✓ 10/15
 
 ### Feedback
+
 **What went well:**
+
 - Clean solution using hash map
 - Good variable naming
 
 **Suggestions:**
+
 - Check return order of indices
 - Consider edge case of duplicate values
 
 ---
+
 🔄 Type `next` for next question | `explain` for detailed solution | `end` to finish session
 ```
 
@@ -233,7 +247,7 @@ session.questions.push({
   userAnswer: userCode,
   score: calculatedScore,
   feedback: feedbackText,
-  attemptedAt: new Date().toISOString()
+  attemptedAt: new Date().toISOString(),
 });
 session.currentQuestion++;
 session.totalScore += calculatedScore;
@@ -285,17 +299,21 @@ cp notebook/current.html archive/practice/session_20260119051750_q1.html
 ## Q{questionId}: {Question Title}
 
 ### Problem Statement
+
 {problem description}
 
 ### Requirements
+
 {constraints/requirements as bullet list}
 
 ### Sample Usage
+
 \`\`\`javascript
 {sample usage code}
 \`\`\`
 
 ### Solution
+
 \`\`\`javascript
 {optimal/correct solution}
 \`\`\`
@@ -317,31 +335,36 @@ cp notebook/current.html archive/practice/session_20260119051750_q1.html
 ## Q1: useCounter Custom Hook
 
 ### Problem Statement
+
 Create a custom React hook that manages counter state...
 
 ### Requirements
+
 - Accept optional initialValue parameter
 - Provide increment, decrement, reset, set functions
 - Memoize all functions with useCallback
 
 ### Sample Usage
+
 \`\`\`javascript
 const { count, increment } = useCounter(10);
 \`\`\`
 
 ### Solution
+
 \`\`\`javascript
 import { useState, useCallback } from 'react';
 
 function useCounter(initialValue = 0) {
-  const [count, setCount] = useState(initialValue);
-  // ... full implementation
+const [count, setCount] = useState(initialValue);
+// ... full implementation
 }
 \`\`\`
 
 ---
 
 ## Q2: useFetch Custom Hook
+
 ...
 ```
 
@@ -373,7 +396,7 @@ For each question, append:
 **8c. Update Session JSON**:
 
 ```javascript
-session.status = "completed";
+session.status = 'completed';
 session.completedAt = new Date().toISOString();
 session.averageScore = session.totalScore / session.questions.length;
 saveSession(session);
@@ -387,26 +410,30 @@ saveSession(session);
 ---
 
 ### Summary
-| Metric | Value |
-|--------|-------|
-| Questions | 5 |
-| Avg Score | 82% |
+
+| Metric     | Value  |
+| ---------- | ------ |
+| Questions  | 5      |
+| Avg Score  | 82%    |
 | Total Time | 45 min |
 
 ### By Question
-| Q# | Topic | Score |
-|----|-------|-------|
-| 1 | Two Sum | 85% |
-| 2 | Counter | 90% |
-| 3 | Array Flat | 75% |
-| 4 | useEffect | 80% |
-| 5 | Debounce | 80% |
+
+| Q#  | Topic      | Score |
+| --- | ---------- | ----- |
+| 1   | Two Sum    | 85%   |
+| 2   | Counter    | 90%   |
+| 3   | Array Flat | 75%   |
+| 4   | useEffect  | 80%   |
+| 5   | Debounce   | 80%   |
 
 ### Recommendations
+
 - Review: Array manipulation edge cases
 - Strong: React hooks understanding
 
 ---
+
 ✅ Session archived to `archive/practice/`
 📄 Summary saved to `progress/session_{sessionId}.md`
 View progress with `/progress`
@@ -416,14 +443,14 @@ View progress with `/progress`
 
 ## Session Commands
 
-| Command | Action |
-|---------|--------|
-| `next` | Go to next question |
-| `skip` | Skip current, come back later |
-| `hint` | Get a hint (-10% score penalty) |
+| Command   | Action                             |
+| --------- | ---------------------------------- |
+| `next`    | Go to next question                |
+| `skip`    | Skip current, come back later      |
+| `hint`    | Get a hint (-10% score penalty)    |
 | `explain` | Show full solution (after attempt) |
-| `save` | Save and pause session |
-| `end` | End session, show summary |
+| `save`    | Save and pause session             |
+| `end`     | End session, show summary          |
 
 ---
 

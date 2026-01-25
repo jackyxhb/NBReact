@@ -11,12 +11,12 @@ AI-Powered Notebook for Frontend Developers. Practice React, JavaScript, and fro
 
 ## Quick Start
 
-| Command | Description |
-|---------|-------------|
+| Command                  | Description                             |
+| ------------------------ | --------------------------------------- |
 | `/practice react medium` | Start React practice, medium difficulty |
-| `/answer` | Get detailed answer to a question |
-| `/resume` | Continue saved session |
-| `/progress` | View progress report |
+| `/answer`                | Get detailed answer to a question       |
+| `/resume`                | Continue saved session                  |
+| `/progress`              | View progress report                    |
 
 ---
 
@@ -58,22 +58,22 @@ AI-Powered Notebook for Frontend Developers. Practice React, JavaScript, and fro
 
 ## Workflows
 
-| Workflow | File | Trigger |
-|----------|------|---------|
-| Practice | [practice.md](file:///Users/macbook1/work/NBReact/.agent/workflows/practice.md) | `/practice` |
-| Answer | [answer.md](file:///Users/macbook1/work/NBReact/.agent/workflows/answer.md) | `/answer` |
-| Resume | [resume.md](file:///Users/macbook1/work/NBReact/.agent/workflows/resume.md) | `/resume` |
-| Progress | [progress.md](file:///Users/macbook1/work/NBReact/.agent/workflows/progress.md) | `/progress` |
+| Workflow       | File                                                                                        | Trigger           |
+| -------------- | ------------------------------------------------------------------------------------------- | ----------------- |
+| Practice       | [practice.md](file:///Users/macbook1/work/NBReact/.agent/workflows/practice.md)             | `/practice`       |
+| Answer         | [answer.md](file:///Users/macbook1/work/NBReact/.agent/workflows/answer.md)                 | `/answer`         |
+| Resume         | [resume.md](file:///Users/macbook1/work/NBReact/.agent/workflows/resume.md)                 | `/resume`         |
+| Progress       | [progress.md](file:///Users/macbook1/work/NBReact/.agent/workflows/progress.md)             | `/progress`       |
 | Notebook Watch | [notebook-watch.md](file:///Users/macbook1/work/NBReact/.agent/workflows/notebook-watch.md) | `/notebook-watch` |
 
 ---
 
 ## Rules
 
-| Rule | Purpose |
-|------|---------|
+| Rule                                                                                      | Purpose             |
+| ----------------------------------------------------------------------------------------- | ------------------- |
 | [platform-format.md](file:///Users/macbook1/work/NBReact/.agent/rules/platform-format.md) | Question formatting |
-| [evaluation.md](file:///Users/macbook1/work/NBReact/.agent/rules/evaluation.md) | Scoring criteria |
+| [evaluation.md](file:///Users/macbook1/work/NBReact/.agent/rules/evaluation.md)           | Scoring criteria    |
 
 ---
 

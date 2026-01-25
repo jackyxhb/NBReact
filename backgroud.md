@@ -16,6 +16,6 @@ Full stack developer - Front-end (90 minute time frame)
 Complete 1 or 2, as well as 3, 4, 5.
 Full stack developer - all other (120 minute time frame)
 Complete all questions
-Please select the questions based on your expertise.  For example, if your expertise is primarily in React choose the React Focused questions. If you are equally comfortable across all technologies choose the Full Stack Developer questions.
+Please select the questions based on your expertise. For example, if your expertise is primarily in React choose the React Focused questions. If you are equally comfortable across all technologies choose the Full Stack Developer questions.
 The test allows you to skip questions. If you are not familiar with React, please do not attempt the question and skip to the VanillaJS question and so on. Please use your time attempting areas of confidence and go back to the others if there is time remaining.
 This exercise is to show us your level of expertise across some of the technologies that we use at XXX, so please do not use any AI tools to complete the answers. "

@@ -103,12 +103,12 @@ Method: Optional feedback prompt
 
 ### 4. Efficiency Tests
 
-| Operation | Target | Test Method |
-|-----------|--------|-------------|
-| Question Generation | <5s | Time measurement |
-| Answer Evaluation | <10s | Time measurement |
-| HTML Notebook Load | <2s | Browser devtools |
-| Session Save/Load | <1s | Time measurement |
+| Operation           | Target | Test Method      |
+| ------------------- | ------ | ---------------- |
+| Question Generation | <5s    | Time measurement |
+| Answer Evaluation   | <10s   | Time measurement |
+| HTML Notebook Load  | <2s    | Browser devtools |
+| Session Save/Load   | <1s    | Time measurement |
 
 ---
 

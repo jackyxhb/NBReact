@@ -14,8 +14,8 @@ const testCasesFile = args[1];
 const functionName = args[2] || 'solution';
 
 if (!codeFile || !testCasesFile) {
-    console.error('Usage: node test-runner.js <code-file> <test-cases-file> [function-name]');
-    process.exit(1);
+  console.error('Usage: node test-runner.js <code-file> <test-cases-file> [function-name]');
+  process.exit(1);
 }
 
 // Read files
@@ -24,71 +24,70 @@ const testCases = JSON.parse(fs.readFileSync(testCasesFile, 'utf8'));
 
 // Results
 const results = {
-    totalTests: testCases.length,
-    passed: 0,
-    failed: 0,
-    errors: 0,
-    testResults: [],
-    totalTime: 0
+  totalTests: testCases.length,
+  passed: 0,
+  failed: 0,
+  errors: 0,
+  testResults: [],
+  totalTime: 0,
 };
 
 // Execute each test case
 testCases.forEach((testCase, index) => {
-    const testResult = {
-        testCase: index,
-        input: testCase.input,
-        expected: testCase.expected,
-        actual: null,
-        passed: false,
-        error: null,
-        executionTime: 0
+  const testResult = {
+    testCase: index,
+    input: testCase.input,
+    expected: testCase.expected,
+    actual: null,
+    passed: false,
+    error: null,
+    executionTime: 0,
+  };
+
+  try {
+    // Create sandbox context
+    const sandbox = {
+      console: {
+        log: (...args) => {}, // Suppress logs during test
+        error: (...args) => {},
+      },
+      result: null,
     };
 
-    try {
-        // Create sandbox context
-        const sandbox = {
-            console: {
-                log: (...args) => { }, // Suppress logs during test
-                error: (...args) => { }
-            },
-            result: null
-        };
-
-        // Wrap code to capture result
-        const wrappedCode = `
+    // Wrap code to capture result
+    const wrappedCode = `
       ${userCode}
       result = ${functionName}(${JSON.stringify(testCase.input)});
     `;
 
-        // Execute with timeout
-        const context = vm.createContext(sandbox);
-        const startTime = process.hrtime.bigint();
+    // Execute with timeout
+    const context = vm.createContext(sandbox);
+    const startTime = process.hrtime.bigint();
 
-        vm.runInContext(wrappedCode, context, {
-            timeout: 5000, // 5 second timeout
-            displayErrors: true
-        });
+    vm.runInContext(wrappedCode, context, {
+      timeout: 5000, // 5 second timeout
+      displayErrors: true,
+    });
 
-        const endTime = process.hrtime.bigint();
-        testResult.executionTime = Number(endTime - startTime) / 1e6; // Convert to ms
-        results.totalTime += testResult.executionTime;
+    const endTime = process.hrtime.bigint();
+    testResult.executionTime = Number(endTime - startTime) / 1e6; // Convert to ms
+    results.totalTime += testResult.executionTime;
 
-        // Compare result
-        testResult.actual = sandbox.result;
-        testResult.passed = JSON.stringify(sandbox.result) === JSON.stringify(testCase.expected);
+    // Compare result
+    testResult.actual = sandbox.result;
+    testResult.passed = JSON.stringify(sandbox.result) === JSON.stringify(testCase.expected);
 
-        if (testResult.passed) {
-            results.passed++;
-        } else {
-            results.failed++;
-        }
-
-    } catch (error) {
-        testResult.error = error.message;
-        results.errors++;
+    if (testResult.passed) {
+      results.passed++;
+    } else {
+      results.failed++;
     }
+  } catch (error) {
+    testResult.error = error.message;
+    results.errors++;
+  }
 
-    results.testResults.push(testResult);
+  results.testResults.push(testResult);
 });
 
 // Calculate score

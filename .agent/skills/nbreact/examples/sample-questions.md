@@ -31,23 +31,23 @@ arr = [1, 2, 3, 4, 5]
 
 ```javascript
 // Test Case 0
-input: [1, 2, 3, 4, 5]
-expected: 15
+input: [1, 2, 3, 4, 5];
+expected: 15;
 
 // Test Case 1
-input: [-1, -2, -3]
-expected: -6
+input: [-1, -2, -3];
+expected: -6;
 
 // Test Case 2
-input: [0]
-expected: 0
+input: [0];
+expected: 0;
 ```
 
 ### Solution
 
 ```javascript
 function arraySum(arr) {
-    return arr.reduce((sum, num) => sum + num, 0);
+  return arr.reduce((sum, num) => sum + num, 0);
 }
 ```
 
@@ -98,15 +98,15 @@ expected: [0, 1]
 
 ```javascript
 function twoSum(nums, target) {
-    const map = new Map();
-    for (let i = 0; i < nums.length; i++) {
-        const complement = target - nums[i];
-        if (map.has(complement)) {
-            return [map.get(complement), i];
-        }
-        map.set(nums[i], i);
+  const map = new Map();
+  for (let i = 0; i < nums.length; i++) {
+    const complement = target - nums[i];
+    if (map.has(complement)) {
+      return [map.get(complement), i];
     }
-    return [];
+    map.set(nums[i], i);
+  }
+  return [];
 }
 ```
 
@@ -143,39 +143,39 @@ The answer is "abc", with the length of 3.
 
 ```javascript
 // Test Case 0
-input: "abcabcbb"
-expected: 3
+input: 'abcabcbb';
+expected: 3;
 
 // Test Case 1
-input: "bbbbb"
-expected: 1
+input: 'bbbbb';
+expected: 1;
 
 // Test Case 2
-input: "pwwkew"
-expected: 3
+input: 'pwwkew';
+expected: 3;
 
 // Test Case 3
-input: ""
-expected: 0
+input: '';
+expected: 0;
 ```
 
 ### Solution
 
 ```javascript
 function lengthOfLongestSubstring(s) {
-    const charIndex = new Map();
-    let maxLength = 0;
-    let start = 0;
+  const charIndex = new Map();
+  let maxLength = 0;
+  let start = 0;
 
-    for (let end = 0; end < s.length; end++) {
-        if (charIndex.has(s[end]) && charIndex.get(s[end]) >= start) {
-            start = charIndex.get(s[end]) + 1;
-        }
-        charIndex.set(s[end], end);
-        maxLength = Math.max(maxLength, end - start + 1);
+  for (let end = 0; end < s.length; end++) {
+    if (charIndex.has(s[end]) && charIndex.get(s[end]) >= start) {
+      start = charIndex.get(s[end]) + 1;
     }
+    charIndex.set(s[end], end);
+    maxLength = Math.max(maxLength, end - start + 1);
+  }
 
-    return maxLength;
+  return maxLength;
 }
 ```
 
@@ -204,22 +204,22 @@ Create a React functional component called `Counter` that:
 import React, { useState } from 'react';
 
 function Counter() {
-    const [count, setCount] = useState(0);
+  const [count, setCount] = useState(0);
 
-    const increment = () => setCount(prev => prev + 1);
-    const decrement = () => setCount(prev => Math.max(0, prev - 1));
-    const reset = () => setCount(0);
+  const increment = () => setCount((prev) => prev + 1);
+  const decrement = () => setCount((prev) => Math.max(0, prev - 1));
+  const reset = () => setCount(0);
 
-    return (
-        <div className="counter">
-            <h2>Count: {count}</h2>
-            <div className="buttons">
-                <button onClick={decrement}>-</button>
-                <button onClick={reset}>Reset</button>
-                <button onClick={increment}>+</button>
-            </div>
-        </div>
-    );
+  return (
+    <div className="counter">
+      <h2>Count: {count}</h2>
+      <div className="buttons">
+        <button onClick={decrement}>-</button>
+        <button onClick={reset}>Reset</button>
+        <button onClick={increment}>+</button>
+      </div>
+    </div>
+  );
 }
 
 export default Counter;

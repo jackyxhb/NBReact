@@ -27,9 +27,7 @@ Location: `practice/sessions/{session-id}.json`
       "id": 1,
       "title": "Question Title",
       "content": "Full question content",
-      "testCases": [
-        { "input": "...", "expected": "...", "hidden": false }
-      ],
+      "testCases": [{ "input": "...", "expected": "...", "hidden": false }],
       "userAnswer": "User's submitted code",
       "score": 85,
       "feedback": "Evaluation feedback",

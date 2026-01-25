@@ -56,24 +56,24 @@ function executeTestCase(userCode, testCase) {
   try {
     // Create sandboxed function
     const fn = new Function('input', userCode + '; return solution(input);');
-    
+
     // Execute with timeout
     const startTime = performance.now();
     const result = fn(testCase.input);
     const endTime = performance.now();
-    
+
     return {
       passed: JSON.stringify(result) === JSON.stringify(testCase.expected),
       actual: result,
       expected: testCase.expected,
-      executionTime: endTime - startTime
+      executionTime: endTime - startTime,
     };
   } catch (error) {
     return {
       passed: false,
       error: error.message,
       actual: null,
-      expected: testCase.expected
+      expected: testCase.expected,
     };
   }
 }
@@ -130,13 +130,13 @@ Total Score = Test Case Score + Code Quality Score + Complexity Score
 
 ### Criteria Checklist
 
-| Criterion | Points | Description |
-|-----------|--------|-------------|
-| Naming | 20 | Clear, descriptive variable/function names |
-| Structure | 20 | Logical organization, proper indentation |
-| Efficiency | 20 | No unnecessary operations |
-| Comments | 20 | Appropriate documentation |
-| Best Practices | 20 | Language idioms, error handling |
+| Criterion      | Points | Description                                |
+| -------------- | ------ | ------------------------------------------ |
+| Naming         | 20     | Clear, descriptive variable/function names |
+| Structure      | 20     | Logical organization, proper indentation   |
+| Efficiency     | 20     | No unnecessary operations                  |
+| Comments       | 20     | Appropriate documentation                  |
+| Best Practices | 20     | Language idioms, error handling            |
 
 ### Example Assessment
 

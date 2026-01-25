@@ -32,11 +32,11 @@ ls -la practice/sessions/*.json
 ```markdown
 ## 📂 Saved Sessions
 
-| # | Date | Topic | Progress | Score | Status |
-|---|------|-------|----------|-------|--------|
-| 1 | Jan 19 | React | 3/5 | 82% | Paused |
-| 2 | Jan 18 | Algorithms | 2/5 | 70% | Paused |
-| 3 | Jan 17 | JavaScript | 5/5 | 88% | Complete |
+| #   | Date   | Topic      | Progress | Score | Status   |
+| --- | ------ | ---------- | -------- | ----- | -------- |
+| 1   | Jan 19 | React      | 3/5      | 82%   | Paused   |
+| 2   | Jan 18 | Algorithms | 2/5      | 70%   | Paused   |
+| 3   | Jan 17 | JavaScript | 5/5      | 88%   | Complete |
 
 Enter session number to resume (or 'latest'):
 ```
@@ -49,9 +49,7 @@ Enter session number to resume (or 'latest'):
 
 ```javascript
 // Load selected session
-const session = JSON.parse(
-  fs.readFileSync(`practice/sessions/${sessionId}.json`)
-);
+const session = JSON.parse(fs.readFileSync(`practice/sessions/${sessionId}.json`));
 
 // Validate session
 if (session.status === 'completed') {
@@ -77,12 +75,14 @@ session.updatedAt = new Date().toISOString();
 **Time Elapsed**: {timeSpent}
 
 ### Previous Questions:
-| Q# | Title | Score |
-|----|-------|-------|
-| 1 | Two Sum | 85% |
-| 2 | Counter | 90% |
+
+| Q#  | Title   | Score |
+| --- | ------- | ----- |
+| 1   | Two Sum | 85%   |
+| 2   | Counter | 90%   |
 
 ---
+
 Ready to continue! Presenting question {current}...
 ```
 
@@ -118,13 +118,13 @@ archiveSession(session);
 
 ## Session Management Commands
 
-| Command | Description |
-|---------|-------------|
-| `/sessions` | List all sessions |
-| `/resume` | Resume workflow |
-| `/resume latest` | Resume most recent |
-| `/delete-session [id]` | Delete session |
-| `/archive-sessions` | Archive all complete sessions |
+| Command                | Description                   |
+| ---------------------- | ----------------------------- |
+| `/sessions`            | List all sessions             |
+| `/resume`              | Resume workflow               |
+| `/resume latest`       | Resume most recent            |
+| `/delete-session [id]` | Delete session                |
+| `/archive-sessions`    | Archive all complete sessions |
 
 ---
 
@@ -141,6 +141,7 @@ No saved sessions found. Start a new practice session with `/practice`
 ```markdown
 Unable to load session. The file may be corrupted.
 Would you like to:
+
 1. Delete this session and start fresh
 2. Try to recover partial data
 ```

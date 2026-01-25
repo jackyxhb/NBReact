@@ -1,1319 +1,1356 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NBReact - Interactive Practice</title>
     <style>
-        :root {
-            --bg-primary: #0f0f0f;
-            --bg-secondary: #1a1a1a;
-            --bg-tertiary: #252525;
-            --bg-elevated: #2a2a2a;
-            --text-primary: #e4e4e7;
-            --text-secondary: #a1a1aa;
-            --text-muted: #71717a;
-            --accent: #3b82f6;
-            --accent-hover: #2563eb;
-            --success: #22c55e;
-            --success-soft: rgba(34, 197, 94, 0.15);
-            --warning: #f59e0b;
-            --warning-soft: rgba(245, 158, 11, 0.15);
-            --error: #ef4444;
-            --error-soft: rgba(239, 68, 68, 0.15);
-            --border: #2e2e2e;
-            --border-light: #3a3a3a;
-            --gradient-primary: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-            --gradient-success: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-            --gradient-warning: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
-            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        /* Header */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 20px;
-            background: linear-gradient(180deg, #1a1a2e 0%, #0f0f1a 100%);
-            border-bottom: 1px solid var(--border);
-            position: relative;
-            z-index: 100;
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .logo {
-            font-size: 18px;
-            font-weight: 700;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .badge-topic {
-            background: rgba(59, 130, 246, 0.2);
-            color: #60a5fa;
-        }
-
-        .badge-difficulty {
-            background: rgba(245, 158, 11, 0.2);
-            color: #fbbf24;
-        }
-
-        .badge-question {
-            background: rgba(139, 92, 246, 0.2);
-            color: #a78bfa;
-        }
-
-        .status-indicator {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            background: var(--bg-tertiary);
-            border-radius: 20px;
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--success);
-            animation: pulse 2s infinite;
-        }
-
-        .status-dot.waiting {
-            background: var(--warning);
-        }
-
-        .status-dot.error {
-            background: var(--error);
-            animation: none;
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.5;
-            }
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .action-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 16px;
-            border: none;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .action-btn.primary {
-            background: var(--gradient-primary);
-            color: white;
-        }
-
-        .action-btn.primary:hover {
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .action-btn.secondary {
-            background: var(--bg-tertiary);
-            color: var(--text-primary);
-            border: 1px solid var(--border-light);
-        }
-
-        .action-btn.secondary:hover {
-            background: var(--bg-elevated);
-            border-color: var(--accent);
-        }
-
-        .action-btn.success {
-            background: var(--gradient-success);
-            color: white;
-        }
-
-        .action-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-
-        /* Main Layout */
-        .main-container {
-            display: flex;
-            height: calc(100vh - 57px);
-        }
-
-        /* Problem Panel */
-        .problem-panel {
-            width: 40%;
-            min-width: 300px;
-            max-width: 600px;
-            overflow-y: auto;
-            background: var(--bg-secondary);
-            border-right: 1px solid var(--border);
-        }
-
-        .problem-header {
-            padding: 24px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .problem-title {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            line-height: 1.3;
-        }
-
-        .problem-meta {
-            display: flex;
-            gap: 8px;
-        }
-
-        .problem-content {
-            padding: 24px;
-        }
-
-        .problem-section {
-            margin-bottom: 28px;
-        }
-
-        .section-title {
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--accent);
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .section-content {
-            line-height: 1.8;
-            color: var(--text-secondary);
-        }
-
-        .section-content ol,
-        .section-content ul {
-            padding-left: 20px;
-            margin-top: 8px;
-        }
-
-        .section-content li {
-            margin-bottom: 8px;
-        }
-
-        .code-block {
-            background: var(--bg-primary);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 16px;
-            margin-top: 12px;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 13px;
-            line-height: 1.6;
-            overflow-x: auto;
-            white-space: pre-wrap;
-        }
-
-        code {
-            background: var(--bg-tertiary);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
-            color: #f472b6;
-        }
-
-        /* Resizer */
-        .resizer {
-            width: 4px;
-            background: var(--border);
-            cursor: col-resize;
-            transition: background 0.2s;
-        }
-
-        .resizer:hover {
-            background: var(--accent);
-        }
-
-        /* Code Panel */
-        .code-panel {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            min-width: 400px;
-        }
-
-        .editor-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 16px;
-            background: var(--bg-tertiary);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .editor-tabs {
-            display: flex;
-            gap: 4px;
-        }
-
-        .editor-tab {
-            padding: 6px 12px;
-            background: transparent;
-            border: none;
-            border-radius: 6px;
-            color: var(--text-secondary);
-            font-size: 13px;
-            cursor: pointer;
-        }
-
-        .editor-tab.active {
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-        }
-
-        .editor-container {
-            flex: 1;
-            min-height: 300px;
-        }
-
-        #editor {
-            width: 100%;
-            height: 100%;
-        }
-
-        /* Output Panel */
-        .output-container {
-            height: 200px;
-            display: flex;
-            flex-direction: column;
-            background: var(--bg-secondary);
-            border-top: 1px solid var(--border);
-        }
-
-        .output-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 16px;
-            background: var(--bg-tertiary);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .output-tabs {
-            display: flex;
-            gap: 4px;
-        }
-
-        .output-tab {
-            padding: 6px 12px;
-            background: transparent;
-            border: none;
-            border-radius: 6px;
-            color: var(--text-secondary);
-            font-size: 13px;
-            cursor: pointer;
-        }
-
-        .output-tab.active {
-            background: var(--bg-secondary);
-            color: var(--accent);
-        }
-
-        .output-content {
-            flex: 1;
-            padding: 16px;
-            overflow-y: auto;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
-        }
-
-        .test-case {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 14px;
-            background: var(--bg-tertiary);
-            border-radius: 8px;
-            margin-bottom: 8px;
-        }
-
-        .test-status {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--text-muted);
-        }
-
-        .test-status.pass {
-            background: var(--success);
-        }
-
-        .test-status.fail {
-            background: var(--error);
-        }
-
-        /* Chat Panel */
-        .chat-panel {
-            width: 360px;
-            min-width: 300px;
-            max-width: 500px;
-            display: flex;
-            flex-direction: column;
-            background: var(--bg-secondary);
-            border-left: 1px solid var(--border);
-        }
-
-        .chat-panel.collapsed {
-            width: 48px;
-            min-width: 48px;
-        }
-
-        .chat-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 16px;
-            background: linear-gradient(180deg, #1e1e2e 0%, #1a1a1a 100%);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .chat-header h3 {
-            font-size: 14px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .chat-toggle {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            cursor: pointer;
-            padding: 4px;
-            border-radius: 4px;
-        }
-
-        .chat-toggle:hover {
-            background: var(--bg-tertiary);
-            color: var(--text-primary);
-        }
-
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .chat-message {
-            display: flex;
-            gap: 12px;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(8px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .chat-message.user {
-            flex-direction: row-reverse;
-        }
-
-        .chat-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            flex-shrink: 0;
-        }
-
-        .chat-avatar.ai {
-            background: var(--gradient-primary);
-        }
-
-        .chat-avatar.user {
-            background: var(--bg-tertiary);
-        }
-
-        .chat-bubble {
-            max-width: 85%;
-            padding: 12px 16px;
-            border-radius: 12px;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        .chat-message.ai .chat-bubble {
-            background: var(--bg-tertiary);
-            border-top-left-radius: 4px;
-        }
-
-        .chat-message.user .chat-bubble {
-            background: var(--accent);
-            color: white;
-            border-top-right-radius: 4px;
-        }
-
-        .chat-bubble code {
-            background: rgba(0, 0, 0, 0.3);
-        }
-
-        .chat-input-container {
-            padding: 16px;
-            border-top: 1px solid var(--border);
-            background: var(--bg-tertiary);
-        }
-
-        .chat-input-wrapper {
-            display: flex;
-            gap: 8px;
-        }
-
-        .chat-input {
-            flex: 1;
-            padding: 12px 16px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            color: var(--text-primary);
-            font-size: 14px;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .chat-input:focus {
-            border-color: var(--accent);
-        }
-
-        .chat-input::placeholder {
-            color: var(--text-muted);
-        }
-
-        .chat-send {
-            width: 44px;
-            height: 44px;
-            background: var(--gradient-primary);
-            border: none;
-            border-radius: 12px;
-            color: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.2s;
-        }
-
-        .chat-send:hover {
-            transform: scale(1.05);
-        }
-
-        .chat-send:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* Quick Actions */
-        .quick-actions {
-            display: flex;
-            gap: 6px;
-            padding: 12px 16px;
-            border-top: 1px solid var(--border);
-            background: var(--bg-secondary);
-            flex-wrap: wrap;
-        }
-
-        .quick-action {
-            padding: 8px 14px;
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            color: var(--text-secondary);
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .quick-action:hover {
-            background: var(--bg-elevated);
-            color: var(--text-primary);
-            border-color: var(--accent);
-        }
-
-        /* Feedback Panel */
-        .feedback-panel {
-            padding: 16px;
-            border-top: 1px solid var(--border);
-            background: var(--bg-tertiary);
-            display: none;
-        }
-
-        .feedback-panel.visible {
-            display: block;
-        }
-
-        .feedback-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .feedback-score {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .score-value {
-            font-size: 28px;
-            font-weight: 700;
-            background: var(--gradient-success);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .score-label {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
-        .feedback-content {
-            font-size: 14px;
-            line-height: 1.7;
-            color: var(--text-secondary);
-        }
-
-        /* Loading Overlay */
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            backdrop-filter: blur(4px);
-        }
-
-        .loading-overlay.visible {
-            display: flex;
-        }
-
-        .loading-content {
-            text-align: center;
-            padding: 40px;
-            background: var(--bg-secondary);
-            border-radius: 16px;
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .loading-spinner {
-            width: 48px;
-            height: 48px;
-            border: 3px solid var(--border);
-            border-top-color: var(--accent);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 16px;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        .loading-text {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .loading-subtext {
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--bg-primary);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--border-light);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--text-muted);
-        }
+      :root {
+        --bg-primary: #0f0f0f;
+        --bg-secondary: #1a1a1a;
+        --bg-tertiary: #252525;
+        --bg-elevated: #2a2a2a;
+        --text-primary: #e4e4e7;
+        --text-secondary: #a1a1aa;
+        --text-muted: #71717a;
+        --accent: #3b82f6;
+        --accent-hover: #2563eb;
+        --success: #22c55e;
+        --success-soft: rgba(34, 197, 94, 0.15);
+        --warning: #f59e0b;
+        --warning-soft: rgba(245, 158, 11, 0.15);
+        --error: #ef4444;
+        --error-soft: rgba(239, 68, 68, 0.15);
+        --border: #2e2e2e;
+        --border-light: #3a3a3a;
+        --gradient-primary: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+        --gradient-success: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+        --gradient-warning: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+        --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+        --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          'Inter',
+          -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
+          Roboto,
+          sans-serif;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      /* Header */
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 20px;
+        background: linear-gradient(180deg, #1a1a2e 0%, #0f0f1a 100%);
+        border-bottom: 1px solid var(--border);
+        position: relative;
+        z-index: 100;
+      }
+
+      .header-left {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .logo {
+        font-size: 18px;
+        font-weight: 700;
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .badge-topic {
+        background: rgba(59, 130, 246, 0.2);
+        color: #60a5fa;
+      }
+
+      .badge-difficulty {
+        background: rgba(245, 158, 11, 0.2);
+        color: #fbbf24;
+      }
+
+      .badge-question {
+        background: rgba(139, 92, 246, 0.2);
+        color: #a78bfa;
+      }
+
+      .status-indicator {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 12px;
+        background: var(--bg-tertiary);
+        border-radius: 20px;
+        font-size: 12px;
+        color: var(--text-secondary);
+      }
+
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--success);
+        animation: pulse 2s infinite;
+      }
+
+      .status-dot.waiting {
+        background: var(--warning);
+      }
+
+      .status-dot.error {
+        background: var(--error);
+        animation: none;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+
+        50% {
+          opacity: 0.5;
+        }
+      }
+
+      .header-actions {
+        display: flex;
+        gap: 8px;
+      }
+
+      .action-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .action-btn.primary {
+        background: var(--gradient-primary);
+        color: white;
+      }
+
+      .action-btn.primary:hover {
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-md);
+      }
+
+      .action-btn.secondary {
+        background: var(--bg-tertiary);
+        color: var(--text-primary);
+        border: 1px solid var(--border-light);
+      }
+
+      .action-btn.secondary:hover {
+        background: var(--bg-elevated);
+        border-color: var(--accent);
+      }
+
+      .action-btn.success {
+        background: var(--gradient-success);
+        color: white;
+      }
+
+      .action-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none !important;
+      }
+
+      /* Main Layout */
+      .main-container {
+        display: flex;
+        height: calc(100vh - 57px);
+      }
+
+      /* Problem Panel */
+      .problem-panel {
+        width: 40%;
+        min-width: 300px;
+        max-width: 600px;
+        overflow-y: auto;
+        background: var(--bg-secondary);
+        border-right: 1px solid var(--border);
+      }
+
+      .problem-header {
+        padding: 24px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .problem-title {
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 12px;
+        line-height: 1.3;
+      }
+
+      .problem-meta {
+        display: flex;
+        gap: 8px;
+      }
+
+      .problem-content {
+        padding: 24px;
+      }
+
+      .problem-section {
+        margin-bottom: 28px;
+      }
+
+      .section-title {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--accent);
+        margin-bottom: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .section-content {
+        line-height: 1.8;
+        color: var(--text-secondary);
+      }
+
+      .section-content ol,
+      .section-content ul {
+        padding-left: 20px;
+        margin-top: 8px;
+      }
+
+      .section-content li {
+        margin-bottom: 8px;
+      }
+
+      .code-block {
+        background: var(--bg-primary);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 16px;
+        margin-top: 12px;
+        font-family: 'JetBrains Mono', 'Fira Code', monospace;
+        font-size: 13px;
+        line-height: 1.6;
+        overflow-x: auto;
+        white-space: pre-wrap;
+      }
+
+      code {
+        background: var(--bg-tertiary);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 13px;
+        color: #f472b6;
+      }
+
+      /* Resizer */
+      .resizer {
+        width: 4px;
+        background: var(--border);
+        cursor: col-resize;
+        transition: background 0.2s;
+      }
+
+      .resizer:hover {
+        background: var(--accent);
+      }
+
+      /* Code Panel */
+      .code-panel {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-width: 400px;
+      }
+
+      .editor-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 16px;
+        background: var(--bg-tertiary);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .editor-tabs {
+        display: flex;
+        gap: 4px;
+      }
+
+      .editor-tab {
+        padding: 6px 12px;
+        background: transparent;
+        border: none;
+        border-radius: 6px;
+        color: var(--text-secondary);
+        font-size: 13px;
+        cursor: pointer;
+      }
+
+      .editor-tab.active {
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+      }
+
+      .editor-container {
+        flex: 1;
+        min-height: 300px;
+      }
+
+      #editor {
+        width: 100%;
+        height: 100%;
+      }
+
+      /* Output Panel */
+      .output-container {
+        height: 200px;
+        display: flex;
+        flex-direction: column;
+        background: var(--bg-secondary);
+        border-top: 1px solid var(--border);
+      }
+
+      .output-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 16px;
+        background: var(--bg-tertiary);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .output-tabs {
+        display: flex;
+        gap: 4px;
+      }
+
+      .output-tab {
+        padding: 6px 12px;
+        background: transparent;
+        border: none;
+        border-radius: 6px;
+        color: var(--text-secondary);
+        font-size: 13px;
+        cursor: pointer;
+      }
+
+      .output-tab.active {
+        background: var(--bg-secondary);
+        color: var(--accent);
+      }
+
+      .output-content {
+        flex: 1;
+        padding: 16px;
+        overflow-y: auto;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 13px;
+      }
+
+      .test-case {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 14px;
+        background: var(--bg-tertiary);
+        border-radius: 8px;
+        margin-bottom: 8px;
+      }
+
+      .test-status {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--text-muted);
+      }
+
+      .test-status.pass {
+        background: var(--success);
+      }
+
+      .test-status.fail {
+        background: var(--error);
+      }
+
+      /* Chat Panel */
+      .chat-panel {
+        width: 360px;
+        min-width: 300px;
+        max-width: 500px;
+        display: flex;
+        flex-direction: column;
+        background: var(--bg-secondary);
+        border-left: 1px solid var(--border);
+      }
+
+      .chat-panel.collapsed {
+        width: 48px;
+        min-width: 48px;
+      }
+
+      .chat-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 16px;
+        background: linear-gradient(180deg, #1e1e2e 0%, #1a1a1a 100%);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .chat-header h3 {
+        font-size: 14px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .chat-toggle {
+        background: none;
+        border: none;
+        color: var(--text-secondary);
+        cursor: pointer;
+        padding: 4px;
+        border-radius: 4px;
+      }
+
+      .chat-toggle:hover {
+        background: var(--bg-tertiary);
+        color: var(--text-primary);
+      }
+
+      .chat-messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .chat-message {
+        display: flex;
+        gap: 12px;
+        animation: fadeIn 0.3s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .chat-message.user {
+        flex-direction: row-reverse;
+      }
+
+      .chat-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        flex-shrink: 0;
+      }
+
+      .chat-avatar.ai {
+        background: var(--gradient-primary);
+      }
+
+      .chat-avatar.user {
+        background: var(--bg-tertiary);
+      }
+
+      .chat-bubble {
+        max-width: 85%;
+        padding: 12px 16px;
+        border-radius: 12px;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .chat-message.ai .chat-bubble {
+        background: var(--bg-tertiary);
+        border-top-left-radius: 4px;
+      }
+
+      .chat-message.user .chat-bubble {
+        background: var(--accent);
+        color: white;
+        border-top-right-radius: 4px;
+      }
+
+      .chat-bubble code {
+        background: rgba(0, 0, 0, 0.3);
+      }
+
+      .chat-input-container {
+        padding: 16px;
+        border-top: 1px solid var(--border);
+        background: var(--bg-tertiary);
+      }
+
+      .chat-input-wrapper {
+        display: flex;
+        gap: 8px;
+      }
+
+      .chat-input {
+        flex: 1;
+        padding: 12px 16px;
+        background: var(--bg-secondary);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        color: var(--text-primary);
+        font-size: 14px;
+        outline: none;
+        transition: border-color 0.2s;
+      }
+
+      .chat-input:focus {
+        border-color: var(--accent);
+      }
+
+      .chat-input::placeholder {
+        color: var(--text-muted);
+      }
+
+      .chat-send {
+        width: 44px;
+        height: 44px;
+        background: var(--gradient-primary);
+        border: none;
+        border-radius: 12px;
+        color: white;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.2s;
+      }
+
+      .chat-send:hover {
+        transform: scale(1.05);
+      }
+
+      .chat-send:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      /* Quick Actions */
+      .quick-actions {
+        display: flex;
+        gap: 6px;
+        padding: 12px 16px;
+        border-top: 1px solid var(--border);
+        background: var(--bg-secondary);
+        flex-wrap: wrap;
+      }
+
+      .quick-action {
+        padding: 8px 14px;
+        background: var(--bg-tertiary);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        color: var(--text-secondary);
+        font-size: 12px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .quick-action:hover {
+        background: var(--bg-elevated);
+        color: var(--text-primary);
+        border-color: var(--accent);
+      }
+
+      /* Feedback Panel */
+      .feedback-panel {
+        padding: 16px;
+        border-top: 1px solid var(--border);
+        background: var(--bg-tertiary);
+        display: none;
+      }
+
+      .feedback-panel.visible {
+        display: block;
+      }
+
+      .feedback-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+
+      .feedback-score {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .score-value {
+        font-size: 28px;
+        font-weight: 700;
+        background: var(--gradient-success);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .score-label {
+        font-size: 12px;
+        color: var(--text-secondary);
+      }
+
+      .feedback-content {
+        font-size: 14px;
+        line-height: 1.7;
+        color: var(--text-secondary);
+      }
+
+      /* Loading Overlay */
+      .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.7);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        backdrop-filter: blur(4px);
+      }
+
+      .loading-overlay.visible {
+        display: flex;
+      }
+
+      .loading-content {
+        text-align: center;
+        padding: 40px;
+        background: var(--bg-secondary);
+        border-radius: 16px;
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .loading-spinner {
+        width: 48px;
+        height: 48px;
+        border: 3px solid var(--border);
+        border-top-color: var(--accent);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 16px;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .loading-text {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .loading-subtext {
+        font-size: 14px;
+        color: var(--text-secondary);
+      }
+
+      /* Scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: var(--bg-primary);
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: var(--border-light);
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--text-muted);
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <header class="header">
-        <div class="header-left">
-            <span class="logo">🧪 NBReact</span>
-            <span class="badge badge-topic" id="topicBadge">React</span>
-            <span class="badge badge-difficulty" id="difficultyBadge">Medium</span>
-            <span class="badge badge-question" id="questionBadge">Q1 of 5</span>
-            <div class="status-indicator">
-                <div class="status-dot" id="statusDot"></div>
-                <span id="statusText">Connected</span>
-            </div>
+      <div class="header-left">
+        <span class="logo">🧪 NBReact</span>
+        <span class="badge badge-topic" id="topicBadge">React</span>
+        <span class="badge badge-difficulty" id="difficultyBadge">Medium</span>
+        <span class="badge badge-question" id="questionBadge">Q1 of 5</span>
+        <div class="status-indicator">
+          <div class="status-dot" id="statusDot"></div>
+          <span id="statusText">Connected</span>
         </div>
-        <div class="header-actions">
-            <button class="action-btn secondary" id="hintBtn">💡 Hint</button>
-            <button class="action-btn secondary" id="answerBtn">📖 Answer</button>
-            <button class="action-btn primary" id="evaluateBtn">⚡ Evaluate</button>
-            <button class="action-btn success" id="nextBtn">Next →</button>
-        </div>
+      </div>
+      <div class="header-actions">
+        <button class="action-btn secondary" id="hintBtn">💡 Hint</button>
+        <button class="action-btn secondary" id="answerBtn">📖 Answer</button>
+        <button class="action-btn primary" id="evaluateBtn">⚡ Evaluate</button>
+        <button class="action-btn success" id="nextBtn">Next →</button>
+      </div>
     </header>
 
     <div class="main-container">
-        <!-- Problem Panel -->
-        <div class="problem-panel" id="problemPanel">
-            <div class="problem-header">
-                <h1 class="problem-title" id="problemTitle">Loading question...</h1>
-                <div class="problem-meta" id="problemMeta"></div>
-            </div>
-            <div class="problem-content" id="problemContent">
-                <div class="problem-section">
-                    <p>Waiting for session to start...</p>
-                </div>
-            </div>
-
-            <!-- Feedback Panel -->
-            <div class="feedback-panel" id="feedbackPanel">
-                <div class="feedback-header">
-                    <div class="feedback-score">
-                        <span class="score-value" id="scoreValue">--</span>
-                        <span class="score-label">/ 100</span>
-                    </div>
-                </div>
-                <div class="feedback-content" id="feedbackContent"></div>
-            </div>
+      <!-- Problem Panel -->
+      <div class="problem-panel" id="problemPanel">
+        <div class="problem-header">
+          <h1 class="problem-title" id="problemTitle">Loading question...</h1>
+          <div class="problem-meta" id="problemMeta"></div>
+        </div>
+        <div class="problem-content" id="problemContent">
+          <div class="problem-section">
+            <p>Waiting for session to start...</p>
+          </div>
         </div>
 
-        <div class="resizer" id="resizer"></div>
-
-        <!-- Code Panel -->
-        <div class="code-panel">
-            <div class="editor-header">
-                <div class="editor-tabs">
-                    <button class="editor-tab active">solution.js</button>
-                </div>
-                <button class="action-btn secondary" id="runTestsBtn">▶ Run Tests</button>
+        <!-- Feedback Panel -->
+        <div class="feedback-panel" id="feedbackPanel">
+          <div class="feedback-header">
+            <div class="feedback-score">
+              <span class="score-value" id="scoreValue">--</span>
+              <span class="score-label">/ 100</span>
             </div>
-            <div class="editor-container">
-                <div id="editor"></div>
-            </div>
-            <div class="output-container">
-                <div class="output-header">
-                    <div class="output-tabs">
-                        <button class="output-tab active" data-tab="tests">Test Cases</button>
-                        <button class="output-tab" data-tab="console">Console</button>
-                    </div>
-                </div>
-                <div class="output-content" id="outputContent">
-                    <div id="testCases"></div>
-                </div>
-            </div>
+          </div>
+          <div class="feedback-content" id="feedbackContent"></div>
         </div>
+      </div>
 
-        <!-- Chat Panel -->
-        <div class="chat-panel" id="chatPanel">
-            <div class="chat-header">
-                <h3>🤖 AI Assistant</h3>
-                <button class="chat-toggle" id="chatToggle" title="Toggle chat">◀</button>
-            </div>
-            <div class="chat-messages" id="chatMessages">
-                <div class="chat-message ai">
-                    <div class="chat-avatar ai">🤖</div>
-                    <div class="chat-bubble">
-                        Welcome! I'm here to help you practice. Click <strong>Evaluate</strong> to score your code, or
-                        ask me anything!
-                    </div>
-                </div>
-            </div>
-            <div class="quick-actions">
-                <button class="quick-action" data-action="hint">💡 Give me a hint</button>
-                <button class="quick-action" data-action="explain">🤔 Explain the problem</button>
-                <button class="quick-action" data-action="approach">📝 Suggest approach</button>
-            </div>
-            <div class="chat-input-container">
-                <div class="chat-input-wrapper">
-                    <input type="text" class="chat-input" id="chatInput" placeholder="Ask anything..." />
-                    <button class="chat-send" id="chatSend">➤</button>
-                </div>
-            </div>
+      <div class="resizer" id="resizer"></div>
+
+      <!-- Code Panel -->
+      <div class="code-panel">
+        <div class="editor-header">
+          <div class="editor-tabs">
+            <button class="editor-tab active">solution.js</button>
+          </div>
+          <button class="action-btn secondary" id="runTestsBtn">▶ Run Tests</button>
         </div>
+        <div class="editor-container">
+          <div id="editor"></div>
+        </div>
+        <div class="output-container">
+          <div class="output-header">
+            <div class="output-tabs">
+              <button class="output-tab active" data-tab="tests">Test Cases</button>
+              <button class="output-tab" data-tab="console">Console</button>
+            </div>
+          </div>
+          <div class="output-content" id="outputContent">
+            <div id="testCases"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat Panel -->
+      <div class="chat-panel" id="chatPanel">
+        <div class="chat-header">
+          <h3>🤖 AI Assistant</h3>
+          <button class="chat-toggle" id="chatToggle" title="Toggle chat">◀</button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+          <div class="chat-message ai">
+            <div class="chat-avatar ai">🤖</div>
+            <div class="chat-bubble">
+              Welcome! I'm here to help you practice. Click <strong>Evaluate</strong> to score your
+              code, or ask me anything!
+            </div>
+          </div>
+        </div>
+        <div class="quick-actions">
+          <button class="quick-action" data-action="hint">💡 Give me a hint</button>
+          <button class="quick-action" data-action="explain">🤔 Explain the problem</button>
+          <button class="quick-action" data-action="approach">📝 Suggest approach</button>
+        </div>
+        <div class="chat-input-container">
+          <div class="chat-input-wrapper">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Ask anything..." />
+            <button class="chat-send" id="chatSend">➤</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Loading Overlay -->
     <div class="loading-overlay" id="loadingOverlay">
-        <div class="loading-content">
-            <div class="loading-spinner"></div>
-            <div class="loading-text" id="loadingText">Processing...</div>
-            <div class="loading-subtext" id="loadingSubtext">AI is thinking...</div>
-        </div>
+      <div class="loading-content">
+        <div class="loading-spinner"></div>
+        <div class="loading-text" id="loadingText">Processing...</div>
+        <div class="loading-subtext" id="loadingSubtext">AI is thinking...</div>
+      </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs/loader.js"></script>
     <script>
-        // ============================================
-        // NBReact Interactive Notebook
-        // ============================================
+      // ============================================
+      // NBReact Interactive Notebook
+      // ============================================
 
-        const CONFIG = {
-            REQUEST_FILE: 'request.json',
-            RESPONSE_FILE: 'response.json',
-            POLL_INTERVAL: 1500,
-            BASE_PATH: window.location.pathname.replace(/[^/]*$/, '')
-        };
+      const CONFIG = {
+        REQUEST_FILE: 'request.json',
+        RESPONSE_FILE: 'response.json',
+        POLL_INTERVAL: 1500,
+        BASE_PATH: window.location.pathname.replace(/[^/]*$/, ''),
+      };
 
-        let editor = null;
-        let currentSession = null;
-        let lastResponseId = null;
-        let isPolling = false;
-        let pollTimer = null;
+      let editor = null;
+      let currentSession = null;
+      let lastResponseId = null;
+      let isPolling = false;
+      let pollTimer = null;
 
-        // ============================================
-        // Monaco Editor Setup
-        // ============================================
+      // ============================================
+      // Monaco Editor Setup
+      // ============================================
 
-        require.config({ paths: { vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs' } });
-        require(['vs/editor/editor.main'], function () {
-            editor = monaco.editor.create(document.getElementById('editor'), {
-                value: '// Your code here\n',
-                language: 'javascript',
-                theme: 'vs-dark',
-                fontSize: 14,
-                minimap: { enabled: false },
-                automaticLayout: true,
-                padding: { top: 16 },
-                tabSize: 2,
-                fontFamily: "'JetBrains Mono', 'Fira Code', monospace",
-                lineNumbers: 'on',
-                scrollBeyondLastLine: false,
-                wordWrap: 'on',
-            });
-
-            // Load initial state
-            loadInitialState();
+      require.config({ paths: { vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs' } });
+      require(['vs/editor/editor.main'], function () {
+        editor = monaco.editor.create(document.getElementById('editor'), {
+          value: '// Your code here\n',
+          language: 'javascript',
+          theme: 'vs-dark',
+          fontSize: 14,
+          minimap: { enabled: false },
+          automaticLayout: true,
+          padding: { top: 16 },
+          tabSize: 2,
+          fontFamily: "'JetBrains Mono', 'Fira Code', monospace",
+          lineNumbers: 'on',
+          scrollBeyondLastLine: false,
+          wordWrap: 'on',
         });
 
-        // ============================================
-        // File Communication (Replaced with HTTP API)
-        // ============================================
+        // Load initial state
+        loadInitialState();
+      });
 
-        const API_BASE = 'http://localhost:3456/api';
+      // ============================================
+      // File Communication (Replaced with HTTP API)
+      // ============================================
 
-        async function sendRequest(type, payload = {}) {
-            const request = {
-                id: `req_${Date.now()}`,
-                timestamp: new Date().toISOString(),
-                type: type,
-                payload: {
-                    ...payload,
-                    code: editor ? editor.getValue() : ''
-                }
-            };
+      const API_BASE = 'http://localhost:3456/api';
 
-            try {
-                // Show loading
-                showLoading(getLoadingMessage(type));
-                updateStatus('waiting', 'Processing...');
+      async function sendRequest(type, payload = {}) {
+        const request = {
+          id: `req_${Date.now()}`,
+          timestamp: new Date().toISOString(),
+          type: type,
+          payload: {
+            ...payload,
+            code: editor ? editor.getValue() : '',
+          },
+        };
 
-                // POST to MCP Server
-                const res = await fetch(`${API_BASE}/request`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(request)
-                });
+        try {
+          // Show loading
+          showLoading(getLoadingMessage(type));
+          updateStatus('waiting', 'Processing...');
 
-                if (!res.ok) throw new Error('Server returned ' + res.status);
+          // POST to MCP Server
+          const res = await fetch(`${API_BASE}/request`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(request),
+          });
 
-                // Start polling for response
-                startPolling(request.id);
+          if (!res.ok) throw new Error('Server returned ' + res.status);
 
-            } catch (error) {
-                console.error('Error sending request:', error);
-                hideLoading();
-                updateStatus('error', 'Request failed: ' + error.message);
-                addChatMessage('ai', `Sorry, there was an error connecting to the notebook server: ${error.message}. Is the MCP server running?`);
+          // Start polling for response
+          startPolling(request.id);
+        } catch (error) {
+          console.error('Error sending request:', error);
+          hideLoading();
+          updateStatus('error', 'Request failed: ' + error.message);
+          addChatMessage(
+            'ai',
+            `Sorry, there was an error connecting to the notebook server: ${error.message}. Is the MCP server running?`
+          );
+        }
+      }
+
+      async function checkResponse(requestId) {
+        try {
+          const res = await fetch(`${API_BASE}/response?id=${requestId}`);
+          if (res.ok) {
+            // 204 No Content means pending
+            if (res.status === 204) return null;
+
+            const response = await res.json();
+            return response;
+          }
+        } catch (e) {
+          console.log('Polling error:', e);
+        }
+        return null;
+      }
+
+      function startPolling(requestId) {
+        if (isPolling) return;
+        isPolling = true;
+
+        // Poll every 1 second
+        pollTimer = setInterval(async () => {
+          try {
+            const response = await checkResponse(requestId);
+            if (response) {
+              stopPolling();
+              handleResponse(response);
             }
-        }
+          } catch (error) {
+            console.log('Polling...', error.message);
+          }
+        }, 1000);
 
-        async function checkResponse(requestId) {
-            try {
-                const res = await fetch(`${API_BASE}/response?id=${requestId}`);
-                if (res.ok) {
-                    // 204 No Content means pending
-                    if (res.status === 204) return null;
-
-                    const response = await res.json();
-                    return response;
-                }
-            } catch (e) {
-                console.log('Polling error:', e);
-            }
-            return null;
-        }
-
-        function startPolling(requestId) {
-            if (isPolling) return;
-            isPolling = true;
-
-            // Poll every 1 second
-            pollTimer = setInterval(async () => {
-                try {
-                    const response = await checkResponse(requestId);
-                    if (response) {
-                        stopPolling();
-                        handleResponse(response);
-                    }
-                } catch (error) {
-                    console.log('Polling...', error.message);
-                }
-            }, 1000);
-
-            // Timeout after 60 seconds (increased for AI thinking time)
-            setTimeout(() => {
-                if (isPolling) {
-                    stopPolling();
-                    hideLoading();
-                    updateStatus('error', 'Timeout');
-                    addChatMessage('ai', '⏱️ Request timed out. The AI might be taking too long or the server is disconnected.');
-                }
-            }, 60000);
-        }
-
-        function stopPolling() {
-            isPolling = false;
-            if (pollTimer) {
-                clearInterval(pollTimer);
-                pollTimer = null;
-            }
-        }
-
-        // ============================================
-        // Response Handlers
-        // ============================================
-
-        function handleResponse(response) {
+        // Timeout after 60 seconds (increased for AI thinking time)
+        setTimeout(() => {
+          if (isPolling) {
+            stopPolling();
             hideLoading();
-            updateStatus('connected', 'Connected');
+            updateStatus('error', 'Timeout');
+            addChatMessage(
+              'ai',
+              '⏱️ Request timed out. The AI might be taking too long or the server is disconnected.'
+            );
+          }
+        }, 60000);
+      }
 
-            if (response.status === 'error') {
-                addChatMessage('ai', `❌ Error: ${response.data.message || 'Unknown error'}`);
-                return;
-            }
+      function stopPolling() {
+        isPolling = false;
+        if (pollTimer) {
+          clearInterval(pollTimer);
+          pollTimer = null;
+        }
+      }
 
-            switch (response.type) {
-                case 'evaluate':
-                    handleEvaluateResponse(response.data);
-                    break;
-                case 'hint':
-                    handleHintResponse(response.data);
-                    break;
-                case 'answer':
-                    handleAnswerResponse(response.data);
-                    break;
-                case 'next':
-                    handleNextResponse(response.data);
-                    break;
-                case 'chat':
-                    handleChatResponse(response.data);
-                    break;
-                case 'start':
-                    handleStartResponse(response.data);
-                    break;
-                default:
-                    addChatMessage('ai', response.data.message || 'Response received.');
-            }
+      // ============================================
+      // Response Handlers
+      // ============================================
+
+      function handleResponse(response) {
+        hideLoading();
+        updateStatus('connected', 'Connected');
+
+        if (response.status === 'error') {
+          addChatMessage('ai', `❌ Error: ${response.data.message || 'Unknown error'}`);
+          return;
         }
 
-        function handleEvaluateResponse(data) {
-            // Show score in feedback panel
-            const feedbackPanel = document.getElementById('feedbackPanel');
-            const scoreValue = document.getElementById('scoreValue');
-            const feedbackContent = document.getElementById('feedbackContent');
+        switch (response.type) {
+          case 'evaluate':
+            handleEvaluateResponse(response.data);
+            break;
+          case 'hint':
+            handleHintResponse(response.data);
+            break;
+          case 'answer':
+            handleAnswerResponse(response.data);
+            break;
+          case 'next':
+            handleNextResponse(response.data);
+            break;
+          case 'chat':
+            handleChatResponse(response.data);
+            break;
+          case 'start':
+            handleStartResponse(response.data);
+            break;
+          default:
+            addChatMessage('ai', response.data.message || 'Response received.');
+        }
+      }
 
-            scoreValue.textContent = data.score;
-            feedbackContent.innerHTML = formatMarkdown(data.feedback);
-            feedbackPanel.classList.add('visible');
+      function handleEvaluateResponse(data) {
+        // Show score in feedback panel
+        const feedbackPanel = document.getElementById('feedbackPanel');
+        const scoreValue = document.getElementById('scoreValue');
+        const feedbackContent = document.getElementById('feedbackContent');
 
-            // Update test cases
-            if (data.testResults) {
-                updateTestCases(data.testResults);
-            }
+        scoreValue.textContent = data.score;
+        feedbackContent.innerHTML = formatMarkdown(data.feedback);
+        feedbackPanel.classList.add('visible');
 
-            // Add to chat
-            addChatMessage('ai', `📊 **Score: ${data.score}/100**\n\n${data.feedback}`);
+        // Update test cases
+        if (data.testResults) {
+          updateTestCases(data.testResults);
         }
 
-        function handleHintResponse(data) {
-            addChatMessage('ai', `💡 **Hint:**\n\n${data.hint}`);
+        // Add to chat
+        addChatMessage('ai', `📊 **Score: ${data.score}/100**\n\n${data.feedback}`);
+      }
+
+      function handleHintResponse(data) {
+        addChatMessage('ai', `💡 **Hint:**\n\n${data.hint}`);
+      }
+
+      function handleAnswerResponse(data) {
+        addChatMessage(
+          'ai',
+          `📖 **Solution:**\n\n${data.explanation}\n\n\`\`\`javascript\n${data.code}\n\`\`\``
+        );
+      }
+
+      function handleNextResponse(data) {
+        // Update question
+        updateQuestion(data.question);
+
+        // Update editor
+        if (data.starterCode) {
+          editor.setValue(data.starterCode);
         }
 
-        function handleAnswerResponse(data) {
-            addChatMessage('ai', `📖 **Solution:**\n\n${data.explanation}\n\n\`\`\`javascript\n${data.code}\n\`\`\``);
+        // Update question badge
+        document.getElementById('questionBadge').textContent =
+          `Q${data.questionNumber} of ${data.totalQuestions}`;
+
+        // Hide feedback panel
+        document.getElementById('feedbackPanel').classList.remove('visible');
+
+        // Add chat message
+        addChatMessage(
+          'ai',
+          `📝 **New Question:** ${data.question.title}\n\nGood luck! Let me know if you need any help.`
+        );
+      }
+
+      function handleChatResponse(data) {
+        addChatMessage('ai', data.message);
+      }
+
+      function handleStartResponse(data) {
+        currentSession = data.session;
+        updateQuestion(data.question);
+
+        if (data.starterCode) {
+          editor.setValue(data.starterCode);
         }
 
-        function handleNextResponse(data) {
-            // Update question
-            updateQuestion(data.question);
+        document.getElementById('topicBadge').textContent = data.session.topic;
+        document.getElementById('difficultyBadge').textContent = data.session.difficulty;
+        document.getElementById('questionBadge').textContent =
+          `Q1 of ${data.session.questionsPerSession}`;
 
-            // Update editor
-            if (data.starterCode) {
-                editor.setValue(data.starterCode);
-            }
+        addChatMessage(
+          'ai',
+          `🚀 **Session Started!**\n\nTopic: ${data.session.topic}\nDifficulty: ${data.session.difficulty}\n\nYour first question: **${data.question.title}**\n\nGood luck!`
+        );
+      }
 
-            // Update question badge
-            document.getElementById('questionBadge').textContent = `Q${data.questionNumber} of ${data.totalQuestions}`;
+      // ============================================
+      // UI Updates
+      // ============================================
 
-            // Hide feedback panel
-            document.getElementById('feedbackPanel').classList.remove('visible');
+      function updateQuestion(question) {
+        document.getElementById('problemTitle').textContent = question.title;
 
-            // Add chat message
-            addChatMessage('ai', `📝 **New Question:** ${data.question.title}\n\nGood luck! Let me know if you need any help.`);
-        }
+        let html = '';
 
-        function handleChatResponse(data) {
-            addChatMessage('ai', data.message);
-        }
-
-        function handleStartResponse(data) {
-            currentSession = data.session;
-            updateQuestion(data.question);
-
-            if (data.starterCode) {
-                editor.setValue(data.starterCode);
-            }
-
-            document.getElementById('topicBadge').textContent = data.session.topic;
-            document.getElementById('difficultyBadge').textContent = data.session.difficulty;
-            document.getElementById('questionBadge').textContent = `Q1 of ${data.session.questionsPerSession}`;
-
-            addChatMessage('ai', `🚀 **Session Started!**\n\nTopic: ${data.session.topic}\nDifficulty: ${data.session.difficulty}\n\nYour first question: **${data.question.title}**\n\nGood luck!`);
-        }
-
-        // ============================================
-        // UI Updates
-        // ============================================
-
-        function updateQuestion(question) {
-            document.getElementById('problemTitle').textContent = question.title;
-
-            let html = '';
-
-            if (question.description) {
-                html += `
+        if (question.description) {
+          html += `
                     <div class="problem-section">
                         <h2 class="section-title">Problem</h2>
                         <div class="section-content">${formatMarkdown(question.description)}</div>
                     </div>
                 `;
-            }
+        }
 
-            if (question.requirements) {
-                html += `
+        if (question.requirements) {
+          html += `
                     <div class="problem-section">
                         <h2 class="section-title">Requirements</h2>
-                        <div class="section-content"><ul>${question.requirements.map(r => `<li>${r}</li>`).join('')}</ul></div>
+                        <div class="section-content"><ul>${question.requirements.map((r) => `<li>${r}</li>`).join('')}</ul></div>
                     </div>
                 `;
-            }
+        }
 
-            if (question.examples) {
-                html += `
+        if (question.examples) {
+          html += `
                     <div class="problem-section">
                         <h2 class="section-title">Examples</h2>
                         <div class="code-block">${question.examples}</div>
                     </div>
                 `;
-            }
-
-            document.getElementById('problemContent').innerHTML = html;
-
-            // Update test cases if provided
-            if (question.testCases) {
-                updateTestCases(question.testCases.map((tc, i) => ({ name: tc.name || `Test ${i}`, status: 'pending' })));
-            }
         }
 
-        function updateTestCases(testCases) {
-            const container = document.getElementById('testCases');
-            container.innerHTML = testCases.map(tc => `
+        document.getElementById('problemContent').innerHTML = html;
+
+        // Update test cases if provided
+        if (question.testCases) {
+          updateTestCases(
+            question.testCases.map((tc, i) => ({ name: tc.name || `Test ${i}`, status: 'pending' }))
+          );
+        }
+      }
+
+      function updateTestCases(testCases) {
+        const container = document.getElementById('testCases');
+        container.innerHTML = testCases
+          .map(
+            (tc) => `
                 <div class="test-case">
                     <div class="test-status ${tc.status === 'pass' ? 'pass' : tc.status === 'fail' ? 'fail' : ''}"></div>
                     <span>${tc.name}</span>
                 </div>
-            `).join('');
-        }
+            `
+          )
+          .join('');
+      }
 
-        function addChatMessage(sender, content) {
-            const messagesContainer = document.getElementById('chatMessages');
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `chat-message ${sender}`;
+      function addChatMessage(sender, content) {
+        const messagesContainer = document.getElementById('chatMessages');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `chat-message ${sender}`;
 
-            messageDiv.innerHTML = `
+        messageDiv.innerHTML = `
                 <div class="chat-avatar ${sender}">${sender === 'ai' ? '🤖' : '👤'}</div>
                 <div class="chat-bubble">${formatMarkdown(content)}</div>
             `;
 
-            messagesContainer.appendChild(messageDiv);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        }
+        messagesContainer.appendChild(messageDiv);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      }
 
-        function formatMarkdown(text) {
-            if (!text) return '';
+      function formatMarkdown(text) {
+        if (!text) return '';
 
-            return text
-                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                .replace(/`([^`]+)`/g, '<code>$1</code>')
-                .replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre class="code-block">$2</pre>')
-                .replace(/\n/g, '<br>');
-        }
+        return text
+          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+          .replace(/`([^`]+)`/g, '<code>$1</code>')
+          .replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre class="code-block">$2</pre>')
+          .replace(/\n/g, '<br>');
+      }
 
-        function showLoading(message) {
-            const overlay = document.getElementById('loadingOverlay');
-            document.getElementById('loadingText').textContent = message.title;
-            document.getElementById('loadingSubtext').textContent = message.subtitle;
-            overlay.classList.add('visible');
-        }
+      function showLoading(message) {
+        const overlay = document.getElementById('loadingOverlay');
+        document.getElementById('loadingText').textContent = message.title;
+        document.getElementById('loadingSubtext').textContent = message.subtitle;
+        overlay.classList.add('visible');
+      }
 
-        function hideLoading() {
-            document.getElementById('loadingOverlay').classList.remove('visible');
-        }
+      function hideLoading() {
+        document.getElementById('loadingOverlay').classList.remove('visible');
+      }
 
-        function getLoadingMessage(type) {
-            const messages = {
-                evaluate: { title: 'Evaluating Code', subtitle: 'AI is analyzing your solution...' },
-                hint: { title: 'Generating Hint', subtitle: 'AI is preparing a helpful hint...' },
-                answer: { title: 'Getting Answer', subtitle: 'AI is preparing the solution...' },
-                next: { title: 'Loading Next Question', subtitle: 'AI is generating your next challenge...' },
-                chat: { title: 'Thinking', subtitle: 'AI is composing a response...' },
-                start: { title: 'Starting Session', subtitle: 'AI is preparing your practice session...' }
-            };
-            return messages[type] || { title: 'Processing', subtitle: 'Please wait...' };
-        }
-
-        function updateStatus(status, text) {
-            const dot = document.getElementById('statusDot');
-            const label = document.getElementById('statusText');
-
-            dot.className = 'status-dot';
-            if (status === 'waiting') dot.classList.add('waiting');
-            if (status === 'error') dot.classList.add('error');
-
-            label.textContent = text;
-        }
-
-        // ============================================
-        // Event Handlers
-        // ============================================
-
-        document.getElementById('evaluateBtn').addEventListener('click', () => {
-            sendRequest('evaluate');
-        });
-
-        document.getElementById('hintBtn').addEventListener('click', () => {
-            sendRequest('hint');
-        });
-
-        document.getElementById('answerBtn').addEventListener('click', () => {
-            sendRequest('answer');
-        });
-
-        document.getElementById('nextBtn').addEventListener('click', () => {
-            sendRequest('next');
-        });
-
-        document.getElementById('chatSend').addEventListener('click', sendChatMessage);
-        document.getElementById('chatInput').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendChatMessage();
-        });
-
-        function sendChatMessage() {
-            const input = document.getElementById('chatInput');
-            const message = input.value.trim();
-            if (!message) return;
-
-            addChatMessage('user', message);
-            input.value = '';
-            sendRequest('chat', { message });
-        }
-
-        // Quick actions
-        document.querySelectorAll('.quick-action').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const action = btn.dataset.action;
-                const messages = {
-                    hint: 'Give me a hint for this problem',
-                    explain: 'Explain this problem in simple terms',
-                    approach: 'What approach should I take to solve this?'
-                };
-                addChatMessage('user', messages[action]);
-                sendRequest('chat', { message: messages[action] });
-            });
-        });
-
-        // Chat toggle
-        document.getElementById('chatToggle').addEventListener('click', () => {
-            const panel = document.getElementById('chatPanel');
-            const toggle = document.getElementById('chatToggle');
-            panel.classList.toggle('collapsed');
-            toggle.textContent = panel.classList.contains('collapsed') ? '▶' : '◀';
-        });
-
-        // Resizer
-        const resizer = document.getElementById('resizer');
-        let isResizing = false;
-        resizer.addEventListener('mousedown', () => isResizing = true);
-        document.addEventListener('mousemove', (e) => {
-            if (isResizing) {
-                const container = document.querySelector('.main-container');
-                const w = (e.clientX / container.offsetWidth) * 100;
-                if (w > 20 && w < 50) {
-                    document.getElementById('problemPanel').style.width = w + '%';
-                }
-            }
-        });
-        document.addEventListener('mouseup', () => isResizing = false);
-
-        // Output tabs
-        document.querySelectorAll('.output-tab').forEach(tab => {
-            tab.addEventListener('click', () => {
-                document.querySelectorAll('.output-tab').forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-            });
-        });
-
-        // ============================================
-        // Initial Load
-        // ============================================
-
-        async function loadInitialState() {
-            // Try to load current session
-            try {
-                const res = await fetch('../practice/current/session.json?t=' + Date.now());
-                if (res.ok) {
-                    currentSession = await res.json();
-                    document.getElementById('topicBadge').textContent = currentSession.topic || 'React';
-                    document.getElementById('difficultyBadge').textContent = currentSession.difficulty || 'Medium';
-                    document.getElementById('questionBadge').textContent =
-                        `Q${currentSession.currentQuestion || 1} of ${currentSession.questionsPerSession || 5}`;
-                }
-            } catch (e) {
-                console.log('No active session found');
-            }
-
-            // Check if there's question content already in the page
-            const problemTitle = document.getElementById('problemTitle');
-            if (problemTitle.textContent === 'Loading question...') {
-                addChatMessage('ai', '👋 Welcome! Start a new session with `/practice` in Antigravity, or click buttons above to interact with your current question.');
-            }
-        }
-
-        // ============================================
-        // Demo Mode (for testing without Antigravity)
-        // ============================================
-
-        window.simulateResponse = function (type, data) {
-            const response = {
-                id: localStorage.getItem('nbr_request') ? JSON.parse(localStorage.getItem('nbr_request')).id : 'demo',
-                timestamp: new Date().toISOString(),
-                type: type,
-                status: 'success',
-                data: data
-            };
-            localStorage.setItem('nbr_response', JSON.stringify(response));
+      function getLoadingMessage(type) {
+        const messages = {
+          evaluate: { title: 'Evaluating Code', subtitle: 'AI is analyzing your solution...' },
+          hint: { title: 'Generating Hint', subtitle: 'AI is preparing a helpful hint...' },
+          answer: { title: 'Getting Answer', subtitle: 'AI is preparing the solution...' },
+          next: {
+            title: 'Loading Next Question',
+            subtitle: 'AI is generating your next challenge...',
+          },
+          chat: { title: 'Thinking', subtitle: 'AI is composing a response...' },
+          start: {
+            title: 'Starting Session',
+            subtitle: 'AI is preparing your practice session...',
+          },
         };
+        return messages[type] || { title: 'Processing', subtitle: 'Please wait...' };
+      }
 
-        console.log('NBReact Interactive Notebook loaded.');
-        console.log('For demo: simulateResponse("hint", { hint: "Try using useState..." })');
+      function updateStatus(status, text) {
+        const dot = document.getElementById('statusDot');
+        const label = document.getElementById('statusText');
+
+        dot.className = 'status-dot';
+        if (status === 'waiting') dot.classList.add('waiting');
+        if (status === 'error') dot.classList.add('error');
+
+        label.textContent = text;
+      }
+
+      // ============================================
+      // Event Handlers
+      // ============================================
+
+      document.getElementById('evaluateBtn').addEventListener('click', () => {
+        sendRequest('evaluate');
+      });
+
+      document.getElementById('hintBtn').addEventListener('click', () => {
+        sendRequest('hint');
+      });
+
+      document.getElementById('answerBtn').addEventListener('click', () => {
+        sendRequest('answer');
+      });
+
+      document.getElementById('nextBtn').addEventListener('click', () => {
+        sendRequest('next');
+      });
+
+      document.getElementById('chatSend').addEventListener('click', sendChatMessage);
+      document.getElementById('chatInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendChatMessage();
+      });
+
+      function sendChatMessage() {
+        const input = document.getElementById('chatInput');
+        const message = input.value.trim();
+        if (!message) return;
+
+        addChatMessage('user', message);
+        input.value = '';
+        sendRequest('chat', { message });
+      }
+
+      // Quick actions
+      document.querySelectorAll('.quick-action').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const action = btn.dataset.action;
+          const messages = {
+            hint: 'Give me a hint for this problem',
+            explain: 'Explain this problem in simple terms',
+            approach: 'What approach should I take to solve this?',
+          };
+          addChatMessage('user', messages[action]);
+          sendRequest('chat', { message: messages[action] });
+        });
+      });
+
+      // Chat toggle
+      document.getElementById('chatToggle').addEventListener('click', () => {
+        const panel = document.getElementById('chatPanel');
+        const toggle = document.getElementById('chatToggle');
+        panel.classList.toggle('collapsed');
+        toggle.textContent = panel.classList.contains('collapsed') ? '▶' : '◀';
+      });
+
+      // Resizer
+      const resizer = document.getElementById('resizer');
+      let isResizing = false;
+      resizer.addEventListener('mousedown', () => (isResizing = true));
+      document.addEventListener('mousemove', (e) => {
+        if (isResizing) {
+          const container = document.querySelector('.main-container');
+          const w = (e.clientX / container.offsetWidth) * 100;
+          if (w > 20 && w < 50) {
+            document.getElementById('problemPanel').style.width = w + '%';
+          }
+        }
+      });
+      document.addEventListener('mouseup', () => (isResizing = false));
+
+      // Output tabs
+      document.querySelectorAll('.output-tab').forEach((tab) => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.output-tab').forEach((t) => t.classList.remove('active'));
+          tab.classList.add('active');
+        });
+      });
+
+      // ============================================
+      // Initial Load
+      // ============================================
+
+      async function loadInitialState() {
+        // Try to load current session
+        try {
+          const res = await fetch('../practice/current/session.json?t=' + Date.now());
+          if (res.ok) {
+            currentSession = await res.json();
+            document.getElementById('topicBadge').textContent = currentSession.topic || 'React';
+            document.getElementById('difficultyBadge').textContent =
+              currentSession.difficulty || 'Medium';
+            document.getElementById('questionBadge').textContent =
+              `Q${currentSession.currentQuestion || 1} of ${currentSession.questionsPerSession || 5}`;
+          }
+        } catch (e) {
+          console.log('No active session found');
+        }
+
+        // Check if there's question content already in the page
+        const problemTitle = document.getElementById('problemTitle');
+        if (problemTitle.textContent === 'Loading question...') {
+          addChatMessage(
+            'ai',
+            '👋 Welcome! Start a new session with `/practice` in Antigravity, or click buttons above to interact with your current question.'
+          );
+        }
+      }
+
+      // ============================================
+      // Demo Mode (for testing without Antigravity)
+      // ============================================
+
+      window.simulateResponse = function (type, data) {
+        const response = {
+          id: localStorage.getItem('nbr_request')
+            ? JSON.parse(localStorage.getItem('nbr_request')).id
+            : 'demo',
+          timestamp: new Date().toISOString(),
+          type: type,
+          status: 'success',
+          data: data,
+        };
+        localStorage.setItem('nbr_response', JSON.stringify(response));
+      };
+
+      console.log('NBReact Interactive Notebook loaded.');
+      console.log('For demo: simulateResponse("hint", { hint: "Try using useState..." })');
     </script>
-</body>
-
+  </body>
 </html>
